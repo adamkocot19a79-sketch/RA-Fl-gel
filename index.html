@@ -22,7 +22,7 @@
 :root{
   --bg:#eef1f4; --surface:#ffffff; --surface-2:#f5f7f9; --line:#d3d9e0; --fg:#18222d; --muted:#5b6876;
   --accent:#d95d14; --accent-soft:#fbe9dd; --blue:#1f4f8a; --blue-soft:#e3ecf7; --ok:#1d7a4c; --ok-soft:#e1f2e8; --warn:#9a5b00; --warn-soft:#fdf1d9; --bad:#b3261e; --bad-soft:#fbe4e2;
-  --wall:#c9ced4; --wall-hatch:#8e98a3; --frame:#5d6b7a; --glass:#cfe3f3;
+  --wall:#c9ced4; --wall-hatch:#8e98a3; --frame:#5d6b7a; --glass:#cfe3f3; --prof:#aeb8c3;
   --f-display:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -30,11 +30,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#11161c; --surface:#1a2129; --surface-2:#212a34; --line:#2f3a46; --fg:#e6ebf0; --muted:#98a5b3;
   --accent:#f08a4b; --accent-soft:#3a2518; --blue:#8bb4e8; --blue-soft:#1c2a3b; --ok:#5fcf93; --ok-soft:#173326; --warn:#f0bb5a; --warn-soft:#3a2d12; --bad:#ff8a80; --bad-soft:#3d1c1a;
-  --wall:#36404b; --wall-hatch:#59656f; --frame:#9aa8b6; --glass:#24405a; color-scheme:dark}}
+  --wall:#36404b; --wall-hatch:#59656f; --frame:#9aa8b6; --glass:#24405a; --prof:#5f6c7a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#11161c; --surface:#1a2129; --surface-2:#212a34; --line:#2f3a46; --fg:#e6ebf0; --muted:#98a5b3;
   --accent:#f08a4b; --accent-soft:#3a2518; --blue:#8bb4e8; --blue-soft:#1c2a3b; --ok:#5fcf93; --ok-soft:#173326; --warn:#f0bb5a; --warn-soft:#3a2d12; --bad:#ff8a80; --bad-soft:#3d1c1a;
-  --wall:#36404b; --wall-hatch:#59656f; --frame:#9aa8b6; --glass:#24405a; color-scheme:dark}
+  --wall:#36404b; --wall-hatch:#59656f; --frame:#9aa8b6; --glass:#24405a; --prof:#5f6c7a; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px;display:flex;flex-direction:column;gap:18px}
@@ -47,9 +47,33 @@ h2{font-size:1.05rem;font-weight:600}
 @media (max-width:900px){.cols{grid-template-columns:minmax(0,1fr)}}
 .cols>*{min-width:0}
 .stick{position:sticky;top:calc(12px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:14px}
+.inputs{display:flex;flex-direction:column;gap:14px;min-width:0}
 @media (max-width:900px){.stick{position:static}}
+@media (max-width:900px){.cols{display:flex;flex-direction:column;gap:14px}.cols>.stick,.cols>.inputs{display:contents}#reqPanel{order:-1}.cols>.stick>*,.cols>.inputs>*{min-width:0;max-width:100%}}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
 .panel h2{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.panel h3.subh{font-size:.95rem;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px}
+.profwrap{display:flex;flex-direction:column;gap:14px}
+.profsk{margin:0;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px 8px 8px;display:flex;flex-direction:column;gap:6px}
+.profsk svg{display:block;width:100%;max-width:380px;height:auto;margin:0 auto}
+.profsk figcaption{font-size:.75rem;color:var(--muted);text-align:center}
+.sk .sk-frame{fill:url(#skh);stroke:var(--fg);stroke-width:1}
+.sk .skh-bg{fill:var(--surface-2)}.sk .skh-l{stroke:var(--wall-hatch);stroke-width:1}
+.sk .sk-sash{fill:var(--glass);stroke:var(--fg);stroke-width:1.2}
+.sk .sk-glass{fill:var(--fg)}
+.sk .sk-break{fill:none;stroke:var(--muted);stroke-width:1}
+.sk .sk-hinge{fill:var(--surface);stroke:var(--fg);stroke-width:1.2}.sk .sk-hx{stroke:var(--fg);stroke-width:1}
+.sk .sk-lab{font-family:var(--f-body);font-size:10px;fill:var(--muted)}
+.sk .sk-arrow{fill:none;stroke:var(--muted);stroke-width:1.2}
+.sk .ex{stroke:var(--muted);stroke-width:.7}
+.sk .dl,.sk .tk{stroke:var(--fg);stroke-width:1}
+.sk .dt{font-family:var(--f-mono);font-size:10.5px;font-weight:500;fill:var(--fg);paint-order:stroke;stroke:var(--surface-2);stroke-width:3px;stroke-linejoin:round}
+.sk .dim.hl .dl,.sk .dim.hl .tk,.sk .dim.hl .ex{stroke:var(--accent);stroke-width:1.8}
+.sk .dim.hl .dt{fill:var(--accent);font-weight:700}
+.sk .dim.hl .sk-hinge,.sk .dim.hl .sk-hx{stroke:var(--accent);stroke-width:1.8}
+label.f .code{display:inline-block;min-width:2.1em;font-family:var(--f-mono);font-weight:600;color:var(--accent);margin-right:2px}
+@media (prefers-reduced-motion:no-preference){.sk .dim *{transition:stroke .15s,fill .15s}}
+.panel h3.subh button{font-family:var(--f-body);font-size:.8rem;padding:5px 10px}
 .panel h2 small{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);font-weight:400;letter-spacing:.04em}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
 label.f{display:flex;flex-direction:column;gap:4px;min-width:0}
@@ -67,6 +91,13 @@ button{font:inherit;cursor:pointer;border-radius:7px;border:1px solid var(--line
 .hint{font-size:.8rem;color:var(--muted);margin:0}
 .draw{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .draw svg{display:block;width:100%;height:auto;max-height:62vh}
+.viewtabs{display:flex;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.viewtabs button{border:none;border-radius:0;background:transparent;padding:10px 16px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent}
+.viewtabs button[aria-pressed="true"]{color:var(--fg);border-bottom-color:var(--accent);background:var(--surface)}
+#cv3d{display:block;width:100%;touch-action:none;cursor:grab}
+#cv3d:active{cursor:grabbing}
+.v3d-bar{display:flex;flex-direction:column;gap:8px;padding:10px 16px;border-top:1px solid var(--line)}
+.v3d-bar button{padding:6px 10px;font-size:.85rem}
 .angle{display:grid;grid-template-columns:auto 1fr 96px;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--line);background:var(--surface-2)}
 .angle .lab{font-family:var(--f-display);font-weight:600}
 .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
@@ -93,7 +124,7 @@ button{font:inherit;cursor:pointer;border-radius:7px;border:1px solid var(--line
 svg text{font-family:var(--f-mono)}
 .s-wall{fill:url(#hatch);stroke:var(--wall-hatch);stroke-width:1}
 .s-ceil{fill:url(#hatch);stroke:var(--wall-hatch);stroke-width:1}
-.s-frame{fill:var(--frame)}
+.s-frame{fill:var(--prof);stroke:var(--frame);stroke-width:1}
 .s-sash{fill:var(--glass);stroke:var(--fg);stroke-width:1.5}
 .s-sash.hit{fill:var(--bad-soft);stroke:var(--bad);stroke-width:2.5}
 .s-ghost{fill:none;stroke:var(--muted);stroke-dasharray:4 4;stroke-width:1}
@@ -102,9 +133,25 @@ svg text{font-family:var(--f-mono)}
 .s-plane{stroke:var(--muted);stroke-dasharray:6 4;stroke-width:1}
 .s-hred{stroke:var(--ok);stroke-width:2.5}
 .s-hinge{fill:var(--accent)}
+.s-prof{fill:var(--prof);stroke:var(--fg);stroke-width:1.2;stroke-linejoin:round}
+.s-prof.hit,.s-bead.hit{fill:var(--bad-soft);stroke:var(--bad);stroke-width:2}
+.s-bead{fill:var(--prof);stroke:var(--fg);stroke-width:.8}
+.s-pane{fill:var(--glass);stroke:var(--blue);stroke-width:.8}
+.s-gap{fill:var(--glass);fill-opacity:.35;stroke:none}
+.s-cham{fill:var(--surface);stroke:var(--fg);stroke-width:.5}
+.s-fcham{fill:var(--surface);stroke:var(--frame);stroke-width:.6}
+.s-tb{fill:var(--muted);stroke:none}
+.s-block{fill:var(--muted)}
+.s-spacer{fill:var(--frame)}
+.s-gask{fill:var(--fg)}
+.det *{vector-effect:non-scaling-stroke}
+.det-bg{fill:var(--surface);stroke:none}
+.det-frame{fill:none;stroke:var(--fg);stroke-width:1}
+.det-mark{fill:none;stroke:var(--fg);stroke-width:1;stroke-dasharray:3 3;opacity:.7}
 @media (max-width:560px){.draw .t-lab,.draw .t-w,.draw .t-s,.draw .t-h,.draw .t-bad{font-size:21px}.draw .t-mut{font-size:18px}.draw .s-w,.draw .s-s{stroke-width:3}}
 .t-bad{fill:var(--bad);font-size:12px;font-weight:500}
 .s-tri{fill:var(--ok-soft);stroke:var(--ok);stroke-width:1.5;fill-opacity:.85}
+.s-tri.off{fill:var(--muted);fill-opacity:.16;stroke:var(--muted);stroke-dasharray:5 4}
 .t-lab{font-size:12px;fill:var(--fg)}
 .t-mut{font-size:11px;fill:var(--muted)}
 .t-w{fill:var(--blue);font-size:12px;font-weight:500}
@@ -118,6 +165,8 @@ svg text{font-family:var(--f-mono)}
 .c-target{stroke:var(--ok);stroke-dasharray:5 4;stroke-width:1.5}
 .c-cur{fill:var(--accent);stroke:var(--surface);stroke-width:2}
 .c-max{stroke:var(--bad);stroke-dasharray:3 3;stroke-width:1.5}
+.c-cap{stroke:var(--fg);stroke-dasharray:8 4;stroke-width:1;opacity:.6}
+.kpi .note{font-family:var(--f-mono);font-size:.68rem;color:var(--warn);margin-top:2px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <style>
@@ -133,6 +182,7 @@ img{max-width:100%}[hidden]{display:none!important}
   #app{display:none!important}
   #printSheet{display:block}
   #printSheet img{display:block;width:297mm;height:210mm;max-width:none}
+  #printSheet img+img{break-before:page;page-break-before:always}
 }
 </style>
 </head>
@@ -147,19 +197,35 @@ img{max-width:100%}[hidden]{display:none!important}
   <div class="cols">
     <div class="stick">
       <div class="draw">
+        <div class="viewtabs" id="viewTabs" role="group" aria-label="Darstellung">
+          <button type="button" data-view="2d" aria-pressed="true">Schnitt</button>
+          <button type="button" data-view="3d" aria-pressed="false">3D-Modell</button>
+        </div>
         <div id="svgHost"></div>
+        <div id="host3d" hidden>
+          <canvas id="cv3d" tabindex="0" aria-label="3D-Modell des Fensters. Ziehen zum Drehen, Mausrad oder zwei Finger zum Zoomen, Pfeiltasten zum Drehen."></canvas>
+          <div class="v3d-bar">
+            <div class="row" id="cam3d" style="display:flex;gap:6px;flex-wrap:wrap">
+              <button type="button" data-cam="innen">Von innen</button>
+              <button type="button" data-cam="aussen">Von außen</button>
+              <button type="button" data-cam="seite">Seitlich</button>
+              <button type="button" data-cam="oben">Von oben</button>
+            </div>
+            <p class="hint">Ziehen zum Drehen, Mausrad oder zwei Finger zum Zoomen. Blau: Lüftungsfläche an der Hauptschließkante zum maßgebenden Bauteil (Rahmen, Decke, Sturz oder Vordach), grau gestrichelt: nicht maßgebendes Maß. Grün: Seitendreiecke, grau gestrichelt: abgewählt.</p>
+          </div>
+        </div>
         <div class="angle">
           <span class="lab">Öffnungswinkel α</span>
-          <input type="range" id="alphaR" min="1" max="90" step="0.5" aria-label="Öffnungswinkel">
+          <input type="range" id="alphaR" min="0" max="90" step="0.5" aria-label="Öffnungswinkel">
           <input type="text" id="alphaN" inputmode="decimal" aria-label="Öffnungswinkel in Grad">
         </div>
       </div>
       <div class="kpis" id="kpis"></div>
       <div id="msgs" style="display:flex;flex-direction:column;gap:8px"></div>
       <div class="panel chart">
-        <h2>A<sub>g</sub> über den Öffnungswinkel <small id="chartNote"></small></h2>
+        <h2><span>A<sub>g</sub> über den Öffnungswinkel</span> <small id="chartNote"></small></h2>
         <div id="chartHost"></div>
-        <p class="hint">Blau: freier Querschnitt je Winkel. Orange: aktueller Winkel. Grün gestrichelt: Anforderung. Rot gestrichelt: Kollision des Flügels.</p>
+        <p class="hint">Blau: freier Querschnitt je Winkel. Orange: aktueller Winkel. Grün gestrichelt: Anforderung. Rot gestrichelt: Kollision des Flügels. Grau gestrichelt: Grenze durch die lichte Öffnung, mehr Fläche ist nicht möglich.</p>
       </div>
       <div class="panel">
         <h2>Rechenweg</h2>
@@ -167,20 +233,16 @@ img{max-width:100%}[hidden]{display:none!important}
       </div>
     </div>
 
-    <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
-      <section class="panel">
-        <h2>Zeichnung ausgeben <small>A4 quer</small></h2>
+    <div class="inputs">
+      <section class="panel" id="reqPanel">
+        <h2>Anforderung und Fensteranzahl <small>Start der Eingabe</small></h2>
         <div class="grid">
-          <label class="f"><span>Projekt</span><input id="proj" data-k="proj" type="text" class="txt" placeholder="z. B. Neubau Schule"></label>
-          <label class="f"><span>Position</span><input id="posn" data-k="posn" type="text" class="txt" placeholder="z. B. RA-Fenster TH 1, 3. OG"></label>
-          <label class="f"><span>Bearbeiter</span><input id="bearb" data-k="bearb" type="text" class="txt"></label>
+          <label class="f"><span>Gefordertes A<sub>g</sub> <b>[m²]</b></span><input id="soll" data-k="soll" type="text" inputmode="decimal" placeholder="optional"></label>
+          <label class="f"><span>Anzahl Fenster n</span><input id="n" data-k="n" type="text" inputmode="numeric"></label>
+          <label class="f"><span>Abstand a zwischen Fenstern</span><input id="a" data-k="a" type="text" inputmode="decimal" placeholder="mm"></label>
+          <label class="f"><span>Abzug Einbauten <b>[%]</b></span><input id="ded" data-k="ded" type="text" inputmode="decimal" placeholder="z. B. Insektenschutz"></label>
         </div>
-        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
-          <button type="button" id="dlPrint" class="primary">Drucken</button>
-          <button type="button" id="dlPdf">Als PDF</button>
-          <button type="button" id="dlSvg">Als SVG (Vektor)</button>
-        </div>
-        <p class="hint" id="dlState">Das Blatt im Format A4 quer enthält den Vertikalschnitt im Maßstab, alle Eingaben, den Rechenweg und die Hinweise. Auf iPhone und iPad öffnet „Als PDF“ das Teilen-Menü zum Sichern oder Weitergeben.</p>
+        <p class="hint">Mehrere identische Fenster: bei a ≤ ½ b gekoppelt, sonst einzeln gerechnet. Der Abzug erfasst Einbauten wie Insektenschutz oder Absturzsicherung.</p>
       </section>
 
       <section class="panel">
@@ -194,18 +256,40 @@ img{max-width:100%}[hidden]{display:none!important}
       </section>
 
       <section class="panel">
-        <h2>Flügel und Rahmen <small>mm</small></h2>
-        <div class="grid">
+        <h2>Flügel und Profil <small>mm</small></h2>
+        <div class="modes" id="dimMode">
+          <button type="button" data-dim="fa"><b>Flügelaußenmaße</b><small>lichte Maße = Außenmaß − Abzugswert</small></button>
+          <button type="button" data-dim="licht"><b>Lichtmaße</b><small>lichte Öffnung direkt eingeben</small></button>
+        </div>
+        <div class="grid" id="gridFa">
+          <label class="f"><span>Flügelaußenbreite FB</span><input id="fb" data-k="fb" type="text" inputmode="decimal"></label>
+          <label class="f"><span>Flügelaußenhöhe FH</span><input id="fh" data-k="fh" type="text" inputmode="decimal"></label>
+        </div>
+        <div class="grid" id="gridLicht" hidden>
           <label class="f"><span>Lichte Öffnungsbreite b</span><input id="b" data-k="b" type="text" inputmode="decimal"></label>
           <label class="f"><span>Lichte Öffnungshöhe h</span><input id="h" data-k="h" type="text" inputmode="decimal"></label>
-          <label class="f"><span>Flügelhöhe außen</span><input id="hf" data-k="hf" type="text" inputmode="decimal"></label>
-          <label class="f"><span>Bautiefe Flügel</span><input id="df" data-k="df" type="text" inputmode="decimal"></label>
-          <label class="f"><span>Bautiefe Rahmen</span><input id="dr" data-k="dr" type="text" inputmode="decimal"></label>
-          <label class="f"><span>Platzbedarf auf dem Rahmen</span><input id="pr" data-k="pr" type="text" inputmode="decimal"></label>
-          <label class="f"><span>Flügelversatz zur Öffnungsseite</span><input id="v" data-k="v" type="text" inputmode="decimal"></label>
         </div>
         <div class="msg info" id="frameInfo"></div>
-        <p class="hint">Der Flügelüberschlag ergibt sich aus Flügelhöhe außen und lichter Höhe. Der Platzbedarf auf dem Rahmen umfasst alles, was zusätzlich zum Überschlag auf dem Rahmen Platz braucht, etwa Falzluft, Beschlag oder Dichtung. Die Ansichtsbreite des Rahmens wird daraus automatisch gebildet. Der Versatz gibt an, wie weit der Flügel über die Rahmenfläche zur Öffnungsseite vorsteht.</p>
+        <h3 class="subh"><span>Profildetails</span><button type="button" id="profDef">Standardwerte laden</button></h3>
+        <div class="profwrap">
+          <figure class="profsk">
+            <svg class="sk" viewBox="0 0 380 420" role="img" aria-labelledby="skTitle"><title id="skTitle">Profilskizze mit Maßen (schematisch, nicht maßstäblich)</title><defs><pattern id="skh" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect class="skh-bg" width="6" height="6"/><line class="skh-l" x1="0" y1="0" x2="0" y2="6"/></pattern></defs><rect class="sk-frame" x="190" y="40" width="140" height="80"/><path class="sk-sash" d="M168,95 H190 V120 H330 V170 H168 Z"/><rect class="sk-glass" x="245" y="170" width="8" height="80"/><rect class="sk-glass" x="275" y="170" width="8" height="80"/><path class="sk-break" d="M236,205 l10,-6 l10,12 l10,-12 l10,12 l10,-12 l10,6"/><path class="sk-sash" d="M168,250 H330 V300 H190 V325 H168 Z"/><rect class="sk-frame" x="190" y="300" width="140" height="70"/><g class="dim" data-dim="hinge"><circle class="sk-hinge" cx="150" cy="343" r="8"/><line class="sk-hx" x1="138" y1="343" x2="162" y2="343"/><line class="sk-hx" x1="150" y1="331" x2="150" y2="355"/></g><text class="sk-lab" x="260" y="86" text-anchor="middle">Rahmen</text><text class="sk-lab" x="260" y="150" text-anchor="middle">Flügel</text><text class="sk-lab" x="260" y="281" text-anchor="middle">Flügel</text><text class="sk-lab" x="260" y="342" text-anchor="middle">Rahmen</text><text class="sk-lab" x="150" y="372" text-anchor="middle">Band</text><path class="sk-arrow" d="M58,212 H18 M18,212 l8,-5 M18,212 l8,5"/><text class="sk-lab" x="38" y="230" text-anchor="middle">innen</text><text class="sk-lab" x="365" y="163" text-anchor="end">außen</text><g class="dim" data-dim="v"><line class="ex" x1="168" y1="95" x2="168" y2="21"/><line class="ex" x1="190" y1="40" x2="190" y2="21"/><line class="dl" x1="163" y1="26" x2="195" y2="26"/><line class="tk" x1="164.5" y1="29.5" x2="171.5" y2="22.5"/><line class="tk" x1="186.5" y1="29.5" x2="193.5" y2="22.5"/><text class="dt" id="sk-v" x="197" y="23" text-anchor="start"></text></g><g class="dim" data-dim="r"><line class="ex" x1="190" y1="40" x2="145" y2="40"/><line class="ex" x1="168" y1="95" x2="145" y2="95"/><line class="dl" x1="150" y1="35" x2="150" y2="100"/><line class="tk" x1="146.5" y1="43.5" x2="153.5" y2="36.5"/><line class="tk" x1="146.5" y1="98.5" x2="153.5" y2="91.5"/><text class="dt" id="sk-r" x="142" y="67.5" text-anchor="middle" transform="rotate(-90 142 67.5)"></text></g><g class="dim" data-dim="sf"><line class="ex" x1="168" y1="95" x2="119" y2="95"/><line class="ex" x1="168" y1="170" x2="119" y2="170"/><line class="dl" x1="124" y1="90" x2="124" y2="175"/><line class="tk" x1="120.5" y1="98.5" x2="127.5" y2="91.5"/><line class="tk" x1="120.5" y1="173.5" x2="127.5" y2="166.5"/><text class="dt" id="sk-sf" x="116" y="132.5" text-anchor="middle" transform="rotate(-90 116 132.5)"></text></g><g class="dim" data-dim="im"><line class="ex" x1="168" y1="250" x2="168" y2="207"/><line class="ex" x1="245" y1="250" x2="245" y2="207"/><line class="dl" x1="163" y1="212" x2="250" y2="212"/><line class="tk" x1="164.5" y1="215.5" x2="171.5" y2="208.5"/><line class="tk" x1="241.5" y1="215.5" x2="248.5" y2="208.5"/><text class="dt" id="sk-im" x="206" y="207" text-anchor="middle"></text></g><g class="dim" data-dim="df"><line class="ex" x1="330" y1="250" x2="330" y2="229"/><line class="dl" x1="163" y1="234" x2="335" y2="234"/><line class="tk" x1="164.5" y1="237.5" x2="171.5" y2="230.5"/><line class="tk" x1="326.5" y1="237.5" x2="333.5" y2="230.5"/><text class="dt" id="sk-df" x="206" y="229" text-anchor="middle"></text></g><g class="dim" data-dim="ab"><line class="ex" x1="190" y1="300" x2="119" y2="300"/><line class="ex" x1="168" y1="325" x2="119" y2="325"/><line class="dl" x1="124" y1="295" x2="124" y2="330"/><line class="tk" x1="120.5" y1="303.5" x2="127.5" y2="296.5"/><line class="tk" x1="120.5" y1="328.5" x2="127.5" y2="321.5"/><text class="dt" id="sk-ab" x="116" y="312.5" text-anchor="middle" transform="rotate(-90 116 312.5)"></text></g><g class="dim" data-dim="by"><line class="ex" x1="168" y1="325" x2="91" y2="325"/><line class="ex" x1="142" y1="343" x2="91" y2="343"/><line class="dl" x1="96" y1="320" x2="96" y2="348"/><line class="tk" x1="92.5" y1="328.5" x2="99.5" y2="321.5"/><line class="tk" x1="92.5" y1="346.5" x2="99.5" y2="339.5"/><text class="dt" id="sk-by" x="88" y="334.0" text-anchor="middle" transform="rotate(-90 88 334.0)"></text></g><g class="dim" data-dim="bx"><line class="ex" x1="150" y1="351" x2="150" y2="401"/><line class="ex" x1="190" y1="370" x2="190" y2="401"/><line class="dl" x1="145" y1="396" x2="195" y2="396"/><line class="tk" x1="146.5" y1="399.5" x2="153.5" y2="392.5"/><line class="tk" x1="186.5" y1="399.5" x2="193.5" y2="392.5"/><text class="dt" id="sk-bx" x="144" y="400" text-anchor="end"></text></g><g class="dim" data-dim="dr"><line class="ex" x1="330" y1="370" x2="330" y2="401"/><line class="dl" x1="185" y1="396" x2="335" y2="396"/><line class="tk" x1="186.5" y1="399.5" x2="193.5" y2="392.5"/><line class="tk" x1="326.5" y1="399.5" x2="333.5" y2="392.5"/><text class="dt" id="sk-dr" x="260" y="391" text-anchor="middle"></text></g><g class="dim" data-dim="gt"><line class="dl" x1="240" y1="192" x2="288" y2="192"/><line class="tk" x1="241.5" y1="195.5" x2="248.5" y2="188.5"/><line class="tk" x1="279.5" y1="195.5" x2="286.5" y2="188.5"/><text class="dt" id="sk-gt" x="290" y="195" text-anchor="start"></text></g></svg>
+            <figcaption>Schematisch, nicht maßstäblich. Die Werte kommen aus den Eingaben, das gerade bearbeitete Maß ist hervorgehoben.</figcaption>
+          </figure>
+          <div class="grid" id="profGrid">
+            <label class="f"><span><b class="code">Ab</b>Abzugswert</span><input id="ab" data-k="ab" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">T1</b>Rahmenprofiltiefe</span><input id="dr" data-k="dr" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">T2</b>Flügelprofiltiefe</span><input id="df" data-k="df" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">ü</b>Überschlag</span><input id="v" data-k="v" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">R</b>Platz auf dem Rahmen (oberhalb des Flügels)</span><input id="r" data-k="r" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">S</b>Platz auf dem Flügel</span><input id="sf" data-k="sf" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">By</b>Band: Abstand von Flügelkante</span><input id="by" data-k="by" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">Bx</b>Band: Abstand von Rahmenebene</span><input id="bx" data-k="bx" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">i</b>i-Maß</span><input id="im" data-k="im" type="text" inputmode="decimal"></label>
+            <label class="f"><span><b class="code">G</b>Glasstärke</span><input id="gt" data-k="gt" type="text" inputmode="decimal"></label>
+          </div>
+        </div>
+        <p class="hint">Standardwerte (Hersteller „Individuell“): Ab 60, T1 70, T2 80, ü 10, R 50, By 10, Bx 10, i 57, G 22, S 45. Alle Werte lassen sich ändern und wirken direkt auf Berechnung und Zeichnung. Lichte Öffnung = Flügelaußenmaß − Ab. Der Flügel überdeckt den Rahmen je Seite um Ab/2 und steht um den Überschlag ü vor der Rahmenebene. R ist der Platz auf dem Rahmen oberhalb des Flügels, die Rahmenansicht ergibt sich zu Ab/2 + R. Die Drehachse liegt Bx vor der Rahmenebene und By außerhalb der Flügelkante. i-Maß und Platz auf dem Flügel gehen nicht in den Querschnitt ein. Sie bestimmen die Darstellung: S ist die Ansichtsbreite des Flügelrahmens ab der Flügelaußenkante, das i-Maß die Lage der inneren Glasfläche ab der raumseitigen Flügelfläche, dort sitzt auch die Glasleiste. Das Glas reicht von i bis i + G (Glasstärke).</p>
       </section>
 
       <section class="panel">
@@ -213,11 +297,16 @@ img{max-width:100%}[hidden]{display:none!important}
         <div class="grid">
           <label class="f"><span>Laibungstiefe innen</span><input id="ti" data-k="ti" type="text" inputmode="decimal"></label>
           <label class="f"><span>Laibungstiefe außen</span><input id="ta" data-k="ta" type="text" inputmode="decimal"></label>
-          <label class="f"><span>Decke: UK über OK lichte Öffnung</span><input id="c" data-k="c" type="text" inputmode="decimal" placeholder="leer = keine Decke"></label>
-          <label class="f"><span>Vordach außen: UK über OK lichte Öffnung</span><input id="ca" data-k="ca" type="text" inputmode="decimal" placeholder="leer = kein Vordach"></label>
+          <label class="f"><span>Decke: UK über Flügeloberkante</span><input id="c" data-k="c" type="text" inputmode="decimal" placeholder="leer = keine Decke"></label>
+          <label class="f"><span>Vordach außen: UK über Flügeloberkante</span><input id="ca" data-k="ca" type="text" inputmode="decimal" placeholder="leer = kein Vordach"></label>
           <label class="f"><span>Vordach Auskragung</span><input id="cl" data-k="cl" type="text" inputmode="decimal"></label>
         </div>
-        <p class="hint">Laibungstiefe gemessen von der Rahmenfläche bis zur Wandoberfläche. Die Decke liegt raumseitig, das Vordach außen. Sturz und Brüstung ergeben sich aus der Ansichtsbreite des Rahmens.</p>
+        <div class="row" style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" id="ceilFlush">Decke bündig mit Laibung</button>
+          <button type="button" id="ovFlush">Vordach bündig mit Laibung</button>
+        </div>
+        <p class="hint" id="ceilHint"></p>
+        <p class="hint">Laibungstiefe gemessen von der Rahmenfläche bis zur Wandoberfläche. Die Decke liegt raumseitig, das Vordach außen. Sturz und Brüstung ergeben sich aus der Rahmenansicht (Ab/2 + R).</p>
       </section>
 
       <section class="panel">
@@ -226,26 +315,35 @@ img{max-width:100%}[hidden]{display:none!important}
           <button type="button" data-side="exakt"><b>Exakt</b><small>Dreieck außerhalb der Laibung, Höhe × Breite / 2</small></button>
           <button type="button" data-side="merk"><b>Merkblatt-Näherung</b><small>w_eff · h_red je Fensterpaar</small></button>
         </div>
-        <p class="hint">Exakt: Seitlich zählt nur das Dreieck zwischen Wandoberfläche und rahmenseitiger Flügelfläche. Es wird kleiner, weil sowohl seine Höhe h_red als auch seine Breite durch die Laibung abnehmen. Die Merkblatt-Näherung ersetzt nur h durch h_red und rechnet weiter mit w. Beide Werte stehen im Rechenweg.</p>
+        <div class="modes" id="triSel" aria-label="Seitendreiecke berücksichtigen">
+          <button type="button" data-tri="triL"><b>Linkes Dreieck</b><small>Ansicht von innen · zählt mit</small></button>
+          <button type="button" data-tri="triR"><b>Rechtes Dreieck</b><small>Ansicht von innen · zählt mit</small></button>
+        </div>
+        <p class="hint">Ein Dreieck per Klick abwählen, wenn diese Seite zugestellt ist, zum Beispiel durch eine Wand, ein Nachbarelement oder einen Rollladenkasten. Abgewählte Dreiecke werden in der Zeichnung nur gestrichelt gezeigt.</p>
+        <p class="hint">Exakt: Seitlich zählt nur die Fläche außerhalb der Laibung. Sie wird von der rahmenseitigen Flügelfläche, der Linie w von der Flügelkante zum Rahmen und der Laibungskante begrenzt. Die Laibung verkleinert sowohl ihre Höhe h_red als auch ihre Breite. Die Merkblatt-Näherung ersetzt nur h durch h_red und rechnet weiter mit w. Beide Werte stehen im Rechenweg.</p>
       </section>
 
       <section class="panel">
-        <h2>Anforderung und Kopplung</h2>
+        <h2>Zeichnung ausgeben <small>A4 quer</small></h2>
         <div class="grid">
-          <label class="f"><span>Gefordertes A<sub>g</sub> <b>[m²]</b></span><input id="soll" data-k="soll" type="text" inputmode="decimal" placeholder="optional"></label>
-          <label class="f"><span>Anzahl Fenster n</span><input id="n" data-k="n" type="text" inputmode="numeric"></label>
-          <label class="f"><span>Abstand a zwischen Fenstern</span><input id="a" data-k="a" type="text" inputmode="decimal" placeholder="mm"></label>
-          <label class="f"><span>Abzug Einbauten <b>[%]</b></span><input id="ded" data-k="ded" type="text" inputmode="decimal" placeholder="z. B. Insektenschutz"></label>
+          <label class="f"><span>Projekt</span><input id="proj" data-k="proj" type="text" class="txt" placeholder="z. B. Neubau Schule"></label>
+          <label class="f"><span>Position</span><input id="posn" data-k="posn" type="text" class="txt" placeholder="z. B. RA-Fenster TH 1, 3. OG"></label>
+          <label class="f"><span>Bearbeiter</span><input id="bearb" data-k="bearb" type="text" class="txt"></label>
         </div>
-        <p class="hint">Mehrere identische Fenster: bei a ≤ ½ b gekoppelt, sonst einzeln gerechnet. Der Abzug erfasst Einbauten wie Insektenschutz oder Absturzsicherung.</p>
+        <div class="row" style="display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" id="dlPrint" class="primary">Drucken</button>
+          <button type="button" id="dlPdf">Als PDF</button>
+          <button type="button" id="dlSvg">Als SVG (Vektor)</button>
+        </div>
+        <p class="hint" id="dlState">Ausdruck und PDF haben zwei Blätter im Format A4 quer: Blatt 1 mit Vertikalschnitt im Maßstab, Eingaben, Rechenweg und Hinweisen, Blatt 2 mit dem 3D-Modell von innen, außen und seitlich. Die SVG-Datei enthält Blatt 1. Auf iPhone und iPad öffnet „Als PDF“ das Teilen-Menü zum Sichern oder Weitergeben.</p>
       </section>
 
       <section class="panel">
         <h2>So rechnet die Simulation</h2>
         <div class="hint" style="display:flex;flex-direction:column;gap:6px;color:var(--fg)">
-          <p class="hint"><b>w</b> ist der kleinste Abstand zwischen Flügel und gegenüberliegendem Rahmenprofil an der Öffnungskante.</p>
-          <p class="hint"><b>s</b> ist der kleinste Abstand zwischen Flügel und Decke, Sturz, Vordach oder Brüstung auf der Seite der Öffnungskante. Ist s ≤ w, wird nach Merkblatt mit s gerechnet.</p>
-          <p class="hint"><b>Seitendreieck</b>: Seitlich entsteht freier Querschnitt nur dort, wo der Flügel über die Wandoberfläche hinausragt. Das Dreieck zwischen Wandoberfläche und rahmenseitiger Flügelfläche hat die Höhe h<sub>red</sub> und an der Spitze die Breite, um die der Flügel vorsteht. Die Flügeldicke zählt nicht mit.</p>
+          <p class="hint"><b>w</b> ist der Abstand von der Flügel-Innenkante an der Öffnungsseite (Hauptschließkante) zum gegenüberliegenden Rahmenprofil. Der Messpunkt bleibt bei jedem Winkel an dieser Kante.</p>
+          <p class="hint"><b>s</b> ist der Abstand von der Flügelkante an der Öffnungsseite (Stirnkante mit beiden Ecken) zu Decke, Sturz in der Laibung, Vordach oder Brüstung. Der Messpunkt bleibt bei jedem Winkel an dieser Kante. Ist s ≤ w, wird nach Merkblatt mit s gerechnet.</p>
+          <p class="hint"><b>Seitendreieck</b>: Seitlich entsteht freier Querschnitt nur dort, wo der Flügel über die Wandoberfläche hinausragt. Das Dreieck wird von der rahmenseitigen Flügelfläche, der Linie w von der Flügelkante zum Rahmen und der Laibungskante begrenzt. Seine Höhe an der Laibungskante ist h<sub>red</sub>. Die Flügeldicke zählt nicht mit.</p>
           <p class="hint"><b>A<sub>g</sub> exakt</b> = w<sub>eff</sub> · b + 2 · A<sub>Δ</sub>. <b>Merkblatt</b>: w<sub>eff</sub> · (b + h<sub>red</sub>). Beides höchstens b · h. Eine Kollision des Flügels mit dem Baukörper wird erkannt und der größte mögliche Winkel angegeben.</p>
           <p class="hint">Die Simulation ersetzt keine Fachplanung. Ergebnisse an der Ausführungszeichnung oder vor Ort prüfen.</p>
         </div>
@@ -255,13 +353,13 @@ img{max-width:100%}[hidden]{display:none!important}
   </div>
 </div>
 
-<div id="printSheet" aria-hidden="true"><img id="printImg" alt=""></div>
+<div id="printSheet" aria-hidden="true"><img id="printImg" alt=""><img id="printImg2" alt=""></div>
 <script>
 (function(){
 const KEY='ra-fluegelsim-v1';
-const DEF={side:'exakt',mode:'kipp',alpha:'20',b:'1250',h:'1500',hf:'1540',df:'78',dr:'70',pr:'40',v:'8',ti:'150',ta:'100',c:'200',ca:'',cl:'800',soll:'1,0',n:'1',a:'',ded:''};
+const DEF={triL:true,triR:true,side:'exakt',mode:'kipp',alpha:'20',dim:'fa',fb:'1310',fh:'1560',b:'1250',h:'1500',ab:'60',dr:'70',df:'80',v:'10',r:'50',by:'10',bx:'10',im:'57',gt:'22',sf:'45',ti:'150',ta:'100',c:'170',ca:'',cRef:'fok',cl:'800',soll:'1,0',n:'1',a:'',ded:''};
 let S=Object.assign({},DEF);
-try{const r=JSON.parse(localStorage.getItem(KEY)||'null');if(r&&typeof r==='object'){delete r.u;if(num(r.hf)<num(r.h))delete r.hf;S=Object.assign({},DEF,r)}}catch(e){}
+try{const r=JSON.parse(localStorage.getItem(KEY)||'null');if(r&&typeof r==='object'){delete r.u;delete r.hf;delete r.ue;delete r.pr;if(r.fb===undefined&&r.b!==undefined)r.dim='licht';if(r.cRef!=='fok'){const d=(isNaN(num(r.ab))?60:num(r.ab))/2;['c','ca'].forEach(k=>{if(r[k]!==undefined&&!isNaN(num(r[k])))r[k]=String(Math.round(num(r[k])-d))});r.cRef='fok'}S=Object.assign({},DEF,r)}}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const num=v=>{const s=String(v??'').trim().replace(/\s/g,'').replace(',','.');return s===''?NaN:Number(s)};
 const has=v=>!isNaN(num(v));
@@ -290,17 +388,26 @@ function overlap(A,B){ // SAT for convex polygons, touching counts as free
 function params(){
   const m=k=>num(S[k])/1000;const bad=[];
   const req=(k,min,allowZero)=>{const v=num(S[k]);if(isNaN(v)||(allowZero?v<min:v<=min))bad.push(k);return v/1000};
-  const P={mode:S.mode,b:req('b',0),h:req('h',0),hf:req('hf',0),df:req('df',0),dr:req('dr',0),pr:req('pr',0,true),v:has(S.v)?m('v'):0,ti:req('ti',0,true),ta:req('ta',0,true)};
-  if(!bad.includes('hf')&&!bad.includes('h')&&P.hf<P.h-1e-9)bad.push('hf');
-  P.ue=Math.max(0,(P.hf-P.h)/2);P.u=P.ue+P.pr;
-  P.c=has(S.c)?m('c'):null; P.ca=has(S.ca)?m('ca'):null; P.cl=has(S.cl)?Math.max(0,m('cl')):0.8;
-  if(P.c!==null&&!(P.c>=P.u)){bad.push('c')}
-  if(P.ca!==null&&!(P.ca>=P.u)){bad.push('ca')}
-  if(!bad.includes('df')&&!bad.includes('dr')&&P.df-P.v>P.dr+1e-9)bad.push('df');
+  const P={mode:S.mode,df:req('df',0),dr:req('dr',0),v:req('v',0,true),ab:req('ab',0,true),r:req('r',0,true),bx:has(S.bx)?m('bx'):0,by:has(S.by)?m('by'):0,ti:req('ti',0,true),ta:req('ta',0,true)};
+  P.sf=has(S.sf)?m('sf'):0.045;P.im=has(S.im)?m('im'):NaN;P.gt=has(S.gt)?m('gt'):0.022;
+  if(!(P.gt>0))bad.push('gt');else if(isFinite(P.im)&&isFinite(P.df)&&P.im+P.gt>P.df+1e-9)bad.push('gt');
+  P.dim=S.dim==='licht'?'licht':'fa';
+  if(P.dim==='fa'){P.fb=req('fb',0);P.fh=req('fh',0);P.b=P.fb-P.ab;P.h=P.fh-P.ab;
+    if(!bad.includes('fb')&&!(P.b>0))bad.push('fb');if(!bad.includes('fh')&&!(P.h>0))bad.push('fh')}
+  else{P.b=req('b',0);P.h=req('h',0);P.fb=P.b+P.ab;P.fh=P.h+P.ab}
+  // sash overlaps the frame by Ab/2 on each side
+  // R = Platz auf dem Rahmen oberhalb des Flügels; Rahmenansicht = Ab/2 + R
+  P.ue=P.ab/2;P.hf=P.fh;P.pr=P.r;P.u=P.ue+P.r;
+  if(P.ue>0&&!(P.v>0))bad.push('v');
+  if(!bad.includes('df')&&P.df-P.v<=1e-9)bad.push('df');
+  // Decke/Vordach are entered above the sash top edge; internally measured from the clear opening (+ Ab/2)
+  P.c=has(S.c)?m('c')+P.ue:null; P.ca=has(S.ca)?m('ca')+P.ue:null; P.cl=has(S.cl)?Math.max(0,m('cl')):0.8;
+  if(P.c!==null&&!(P.c>=P.u-1e-6)){bad.push('c')}else if(P.c!==null)P.c=Math.max(P.c,P.u)
+  if(P.ca!==null&&!(P.ca>=P.u-1e-6)){bad.push('ca')}else if(P.ca!==null)P.ca=Math.max(P.ca,P.u)
   if(P.v<0||P.v>P.ti+P.ta+P.dr)bad.push('v');
   P.n=Math.max(1,Math.round(num(S.n))||1);P.a=has(S.a)?m('a'):NaN;
   if(P.n>1&&isNaN(P.a))bad.push('a');
-  P.side=S.side==='merk'?'merk':'exakt';P.soll=has(S.soll)?num(S.soll):NaN;P.ded=has(S.ded)?Math.min(100,Math.max(0,num(S.ded))):0;
+  P.side=S.side==='merk'?'merk':'exakt';P.triL=S.triL!==false;P.triR=S.triR!==false;P.k=(P.triL?1:0)+(P.triR?1:0);P.soll=has(S.soll)?num(S.soll):NaN;P.ded=has(S.ded)?Math.min(100,Math.max(0,num(S.ded))):0;
   P.bad=bad;return P;
 }
 
@@ -310,46 +417,127 @@ function scene(P,aDeg){
   const bottom=P.mode==='kipp'||P.mode==='senk';const inward=P.mode==='kipp'||P.mode==='klappIn';
   const {h,hf,df,dr,u,ti,ta,ue,v}=P;
   const xi=-ti,xa=dr+ta;
-  const hinge=[inward?-v:dr+v,bottom?-ue:h+ue];
-  const sx0=inward?-v:dr-df+v,sx1=inward?df-v:dr+v;const sy0=-ue,sy1=h+ue;
+  // Sash profile: body inside the clear opening, Aufschlag (lip) resting on the frame face on the opening side
+  const F=inward?0:dr,sg=inward?-1:1,L=F+sg*v,B=F-sg*(df-v);
+  const hinge=[F+sg*P.bx,bottom?-ue-P.by:h+ue+P.by]; // Band: Bx vor der Rahmenebene, By außerhalb der Flügelkante
   const th=(bottom===inward)?al:-al;
-  const closed=rect(sx0,sx1,sy0,sy1);const sash=closed.map(p=>rot(p,hinge,th));
+  const R_=q=>rot(q,hinge,th);
+  const closed=[[L,-ue],[F,-ue],[F,0],[B,0],[B,h],[F,h],[F,h+ue],[L,h+ue]];
+  const sash=closed.map(R_);
+  const parts=[rect(Math.min(L,F),Math.max(L,F),-ue,h+ue),rect(Math.min(B,F),Math.max(B,F),0,h)].map(r=>r.map(R_)).filter(r=>polyArea(r)>1e-12);
+  const yb=bottom?h:0,yl=bottom?h+ue:-ue;
   const top=Math.max(h+(P.c??0),h+(P.ca??0),h+u)+0.45, bot=-u-0.45;
-  const roomD=Math.max(0.9,hf*0.95);
+  const roomD=Math.max(1.2,hf+0.3); // ceiling always reaches beyond the sash edge, also when fully open
   const ob={};
   ob.wallAbove={name:'Sturz',poly:rect(xi,xa,h+u,top)};
   ob.wallBelow={name:'Brüstung',poly:rect(xi,xa,bot,-u)};
   if(P.c!==null)ob.ceil={name:'Decke',poly:rect(xi-roomD,xi,h+P.c,h+P.c+0.2)};
   if(P.ca!==null)ob.over={name:'Vordach',poly:rect(xa,xa+P.cl,h+P.ca,h+P.ca+0.16)};
   const frame=[rect(0,dr,h,h+u),rect(0,dr,-u,0)];
-  const passEdge=bottom?[[0,h],[dr,h]]:[[0,0],[dr,0]];
-  const W=polyDist(sash,passEdge);
+  // w: from the sash inner edge at the opening side (Hauptschließkante, frame-side face) to the opposite frame profile
+  const frameOpp=bottom?rect(0,dr,h,h+u):rect(0,dr,-u,0);
+  const inRect=(q,r)=>q[0]>=r[0][0]-1e-9&&q[0]<=r[1][0]+1e-9&&q[1]>=r[0][1]-1e-9&&q[1]<=r[2][1]+1e-9;
+  let W={d:Infinity};
+  for(const c of [R_([B,yb]),R_([F,yl])]){
+    if(inRect(c,frameOpp)){if(0<W.d)W={d:0,p:c,q:c};continue}
+    for(const[a1,b1]of edges(frameOpp)){const r=ptSeg(c,a1,b1);if(r.d<W.d)W=r}}
   // only the part of Sturz/Brüstung inside the reveal on the opening side lies in the smoke path
   const rx0=inward?xi:dr,rx1=inward?0:xa;const revealW=rx1-rx0>1e-6;
   const sObs=[];
   if(bottom){if(revealW)sObs.push({name:'Sturz',poly:rect(rx0,rx1,h+u,top)});if(ob.ceil)sObs.push(ob.ceil);if(ob.over)sObs.push(ob.over)}
   else{if(revealW)sObs.push({name:'Brüstung',poly:rect(rx0,rx1,bot,-u)})}
   let S0={d:Infinity,name:null};
-  for(const o of sObs){const r=polyDist(sash,o.poly);if(r.d<S0.d)S0=Object.assign(r,{name:o.name})}
-  const hits=Object.values(ob).filter(o=>overlap(sash,o.poly)).map(o=>o.name);
+  // s: always from the sash edge at the opening side (Stirnkante, both corners) to the obstacle
+  const edgeS=[[L,yl],[F,yl],[F,yb],[B,yb]].map(R_);
+  for(const o of sObs)for(let i=0;i<edgeS.length-1;i++){const r=polyDist([edgeS[i],edgeS[i+1]],o.poly);if(r.d<S0.d)S0=Object.assign(r,{name:o.name})}
+  const hits=Object.values(ob).filter(o=>parts.some(pt=>overlap(pt,o.poly))).map(o=>o.name);
   const t=Math.max(0,(inward?ti:ta)-v); // distance sash face → wall face
   const weff=Math.min(W.d,S0.d);
   // side triangle outside the reveal: between wall-face plane and the sash face on the opening side
-  const faceX=inward?-v:dr+v;const faceEnd=rot([faceX,bottom?h+ue:-ue],hinge,th);
+  const faceEnd=R_([L,yl]);
   const xp=inward?xi:xa;const beyond=x=>inward?x<xp-1e-12:x>xp+1e-12;
   // use the sash face towards the frame, so the sash thickness is not counted as free area
-  const fx=inward?df-v:dr-df+v;const H0=rot([fx,bottom?-ue:h+ue],hinge,th),E=rot([fx,bottom?h+ue:-ue],hinge,th);
+  const H0=R_([B,bottom?0:h]),E=R_([B,yb]);
+  // Side opening: bounded by the sash face (H0→E), the line along w from the sash edge to the frame,
+  // and the reveal edge (wall face plane x = xp). Only the part outside the reveal counts.
   let tri=[];
-  if(beyond(E[0])){
-    if(beyond(H0[0]))tri=[[xp,H0[1]],H0,E,[xp,E[1]]];
-    else{const k=(xp-H0[0])/(E[0]-H0[0]);tri=[[xp,H0[1]+k*(E[1]-H0[1])],E,[xp,E[1]]]}
+  if(beyond(E[0])&&W.p&&W.q&&W.d>0){
+    const Q=[H0,E];
+    if(Math.hypot(W.p[0]-E[0],W.p[1]-E[1])>1e-9)Q.push(W.p);
+    Q.push(W.q,[W.q[0],H0[1]]);
+    tri=clipX(Q,xp,inward);
   }
   tri=clipY(clipY(tri,0,true),h,false); // only within the clear opening height
   const triA=polyArea(tri);
   const hred=tri.length?Math.max(...tri.map(q=>q[1]))-Math.min(...tri.map(q=>q[1])):0;
   const triB=tri.length?Math.max(...tri.map(q=>Math.abs(q[0]-xp))):0;
-  return{al,bottom,inward,hinge,sash,closed,ob,frame,W,S:S0,hits,hred,tri,triA,triB,xp,weff,t,xi,xa,top,bot,roomD,faceEnd,limited:S0.d<=W.d};
+  // profile system for the drawing (display only): thermally broken sash and frame profiles,
+  // glazing rebate with setting block, gaskets, flush glazing bead and insulating glass unit
+  const Sm=Math.max(ue+0.005,Math.min(h/2,P.sf||0.045));
+  const xr=inward?L:B; // room-side face of the sash; depth d grows towards the outside
+  const T2=df,mmm=0.001;
+  const dI=Math.min(Math.max(isFinite(P.im)?P.im:T2*0.7,0.012),T2-0.010); // inner glass face (i-Maß)
+  const dO=Math.min(T2,dI+Math.max(0.004,P.gt||0.022));                    // outer glass face = i + G
+  const lip0=inward?0:T2-v,lip1=inward?v:T2,bod0=inward?v:0,bod1=inward?T2:T2-v;
+  const gr=Math.min(0.018,Math.max(0.004,(Sm-ue)*0.45));                   // depth of the glazing rebate
+  const bw=Math.min(0.016,Math.max(0.005,(dI-bod0)*0.45));                 // glazing bead width
+  const tb0=bod0+(bod1-bod0)*0.42,tb1=bod0+(bod1-bod0)*0.6;                 // thermal break zone
+  const gparts=[];
+  const put=(cls,q)=>gparts.push([cls,q.map(R_)]);
+  // map (d,u) of one profile end to local x/y: u from the sash edge into the sash
+  const ends=[{y:u_=>h+ue-u_},{y:u_=>-ue+u_}];
+  const R2=(e,d0,d1,u0,u1)=>{if(d1-d0<1e-6||u1-u0<1e-6)return null;const ya=e.y(u0),yb=e.y(u1);return rect(xr+d0,xr+d1,Math.min(ya,yb),Math.max(ya,yb))};
+  const add=(cls,e,d0,d1,u0,u1)=>{const r=R2(e,d0,d1,u0,u1);if(r)put(cls,r)};
+  // glass (behind the profiles' glazing rebate)
+  const gy0=-ue+Sm-gr+0.002,gy1=h+ue-Sm+gr-0.002;
+  const g0=xr+dI,g1=xr+dO;
+  put('s-gap',rect(g0,g1,gy0,gy1));
+  if(g1-g0>=0.014){put('s-pane',rect(g0,g0+0.004,gy0,gy1));put('s-pane',rect(g1-0.004,g1,gy0,gy1))}else put('s-pane',rect(g0,g1,gy0,gy1));
+  // profile shells
+  [clipY(closed,h+ue-Sm,true),clipY(closed,-ue+Sm,false)].forEach(q=>{if(q.length)put('s-prof',q)});
+  const uw=0.0015;
+  for(const e of ends){
+    // glazing rebate: open slot that takes glass, bead and gaskets
+    add('s-cham',e,dI-bw,Math.min(bod1-0.0015,dO+0.0025),Sm-gr,Sm+0.0005);
+    // hollow chambers and thermal break (only where the profile is tall enough)
+    const cu0=ue+uw,cu1=Sm-gr-uw;
+    if(cu1-cu0>0.0025){
+      add('s-cham',e,Math.max(bod0,lip0)+uw+(inward?0:0),tb0-uw,cu0,cu1);
+      add('s-cham',e,tb1+uw,bod1-uw,cu0,cu1);
+      add('s-cham',e,tb0,tb1,cu0+0.0025,cu1-0.0025);
+      add('s-tb',e,tb0-uw,tb1+uw,cu0,cu0+0.0025);
+      add('s-tb',e,tb0-uw,tb1+uw,cu1-0.0025,cu1);
+    }
+    if(lip1-lip0>0.005&&Sm-gr-2*uw>0.004)add('s-cham',e,lip0+uw,lip1-uw,uw,Math.min(ue,Sm-gr)-uw); // chamber in the overlap leg
+    // setting block, spacer, gaskets, bead
+    add('s-block',e,dI,dO,Sm-gr,Sm-gr+0.002);
+    if(dO-dI>=0.014)add('s-spacer',e,dI+0.004,dO-0.004,Sm-gr+0.002,Sm-gr+0.008);
+    add('s-gask',e,dI-0.002,dI,Sm-gr+0.003,Sm+0.0005);
+    add('s-gask',e,dO,Math.min(dO+0.002,bod1),Sm-gr+0.003,Sm+0.0005);
+    add('s-bead',e,dI-bw,dI-0.002,Sm-gr,Sm);
+  }
+  // frame profiles (top and bottom): chambers, thermal break, gasket under the overlap
+  const frameParts=[];
+  const fr=(cls,x0,x1,y0,y1)=>{if(x1-x0>1e-6&&y1-y0>1e-6)frameParts.push([cls,rect(x0,x1,y0,y1)])};
+  const ftb0=dr*0.42,ftb1=dr*0.6;
+  for(const [ya,yb] of [[h,h+u],[-u,0]]){
+    const c0=ya+uw,c1=yb-uw;if(c1-c0<0.006)continue;
+    fr('s-fcham',uw,ftb0-uw,c0,c1);fr('s-fcham',ftb1+uw,dr-uw,c0,c1);fr('s-fcham',ftb0,ftb1,c0+0.0025,c1-0.0025);
+    fr('s-tb',ftb0-uw,ftb1+uw,c0,c0+0.0025);fr('s-tb',ftb0-uw,ftb1+uw,c1-0.0025,c1);
+  }
+  // gasket between sash overlap and frame face
+  const gx0=inward?-0.002:dr,gx1=inward?0:dr+0.002;
+  fr('s-gask',gx0,gx1,h+Math.min(ue,0.012)*0.3,h+Math.min(ue,0.012));fr('s-gask',gx0,gx1,-Math.min(ue,0.012),-Math.min(ue,0.012)*0.3);
+  const detC=R_([xr+T2/2,bottom?h+ue-Sm*0.55:-ue+Sm*0.55]);
+  const glz={Sm,g0,g1,yT0:h+ue-Sm,yB1:-ue+Sm,parts:gparts,frameParts,detC};
+  return{glz,al,bottom,inward,hinge,sash,closed,ob,frame,W,S:S0,hits,hred,tri,triA,triB,xp,weff,t,xi,xa,top,bot,roomD,faceEnd,limited:S0.d<=W.d};
 }
+function clipX(poly,xc,keepLeft){ // Sutherland–Hodgman against a vertical line
+  if(!poly.length)return poly;const out=[];const inside=q=>keepLeft?q[0]<=xc:q[0]>=xc;
+  for(let i=0;i<poly.length;i++){const A=poly[i],B=poly[(i+1)%poly.length];const ia=inside(A),ib=inside(B);
+    if(ia)out.push(A);
+    if(ia!==ib){const k=(xc-A[0])/(B[0]-A[0]);out.push([xc,A[1]+k*(B[1]-A[1])])}}
+  return out.length>=3?out:[]}
 function clipY(poly,yc,keepAbove){ // Sutherland–Hodgman against a horizontal line
   if(!poly.length)return poly;const out=[];const inside=q=>keepAbove?q[1]>=yc:q[1]<=yc;
   for(let i=0;i<poly.length;i++){const A=poly[i],B=poly[(i+1)%poly.length];const ia=inside(A),ib=inside(B);
@@ -358,10 +546,10 @@ function clipY(poly,yc,keepAbove){ // Sutherland–Hodgman against a horizontal 
   return out.length>=3?out:[]}
 function polyArea(P){let s=0;for(let i=0;i<P.length;i++){const A=P[i],B=P[(i+1)%P.length];s+=A[0]*B[1]-B[0]*A[1]}return Math.abs(s)/2}
 function agOf(P,sc){
-  const {b,h,n,a}=P;const w=sc.weff,hr=sc.hred,T=sc.triA;let ex,mb,form;
-  if(n===1){form='single';ex=w*b+2*T;mb=w*(b+hr)}
-  else if(a<=b/2){form='coupled';ex=w*n*b+2*T;mb=w*(n*b+hr)}
-  else{form='separate';ex=n*(w*b+2*T);mb=n*w*(b+hr)}
+  const {b,h,n,a}=P;const k=P.k??2;const w=sc.weff,hr=sc.hred*k/2,T=sc.triA*k;let ex,mb,form;
+  if(n===1){form='single';ex=w*b+T;mb=w*(b+hr)}
+  else if(a<=b/2){form='coupled';ex=w*n*b+T;mb=w*(n*b+hr)}
+  else{form='separate';ex=n*(w*b+T);mb=n*w*(b+hr)}
   let Ag=P.side==='merk'?mb:ex;
   const cap=n*b*h;let capped=false;if(Ag>cap){Ag=cap;capped=true}
   const raw=Ag;Ag=Ag*(1-P.ded/100);
@@ -371,8 +559,8 @@ function agOf(P,sc){
 /* ---------- drawing ---------- */
 function drawSVG(P,sc,opt){opt=opt||{};
   const pad=0.12;
-  const minX=Math.min(sc.xi-(P.c!==null?Math.min(sc.roomD,0.9):0.35),sc.sash.reduce((m,p)=>Math.min(m,p[0]),0))-pad;
-  const maxX=Math.max(sc.xa+(P.ca!==null?Math.min(P.cl,0.9):0.35),sc.sash.reduce((m,p)=>Math.max(m,p[0]),0))+pad;
+  let minX=Math.min(sc.xi-(P.c!==null?Math.min(sc.roomD,0.9):0.35),sc.sash.reduce((m,p)=>Math.min(m,p[0]),0))-pad;
+  let maxX=Math.max(sc.xa+(P.ca!==null?Math.min(P.cl,0.9):0.35),sc.sash.reduce((m,p)=>Math.max(m,p[0]),0))+pad;
   // vertical window: focus on the half with the opening edge
   const focusTop=sc.bottom;const span=Math.max(P.hf,0.6);
   let y0,y1;
@@ -385,14 +573,20 @@ function drawSVG(P,sc,opt){opt=opt||{};
   const clipR=r=>r.map(p=>[Math.max(minX-1,Math.min(maxX+1,p[0])),Math.max(y0-1,Math.min(y1+1,p[1]))]);
   let s=`<svg data-mw="${(maxX-minX).toFixed(4)}" viewBox="0 0 ${Wpx} ${Hpx}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vertikalschnitt mit geöffnetem Flügel">
   <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect class="hatch-bg" width="8" height="8"/><line class="hatch-l" x1="0" y1="0" x2="0" y2="8"/></pattern></defs>`;
+  const geomStart=s.length;
   for(const o of Object.values(sc.ob))s+=poly(clipR(o.poly),o.name==='Decke'||o.name==='Vordach'?'s-ceil':'s-wall');
   sc.frame.forEach(r=>s+=poly(r,'s-frame'));
+  ['s-fcham','s-tb','s-gask'].forEach(c=>sc.glz.frameParts.forEach(([cls,q])=>{if(cls===c)s+=poly(q,cls)}));
   s+=poly(sc.closed,'s-ghost');
-  s+=poly(sc.sash,'s-sash'+(sc.hits.length?' hit':''));
+  {const G=sc.glz,hc=sc.hits.length?' hit':'';
+    const ord=['s-gap','s-pane','s-prof','s-cham','s-tb','s-block','s-spacer','s-bead','s-gask'];
+    ord.forEach(c=>G.parts.forEach(([cls,q])=>{if(cls===c)s+=poly(q,cls+((cls==='s-prof'||cls==='s-bead')?hc:''))}))}
+  const geom=s.slice(geomStart);
   // reveal plane + h_red
   if(sc.t>0){const px=sc.inward?sc.xi:sc.xa;s+=`<line class="s-plane" x1="${X(px)}" y1="${Y(y0)}" x2="${X(px)}" y2="${Y(y1)}"/>`;
   }
-  if(sc.tri.length){s+=poly(sc.tri,'s-tri');
+  if(sc.tri.length){s+=poly(sc.tri,P.k>0?'s-tri':'s-tri off');
+    if(P.k===0){const cx=sc.tri.reduce((m,q)=>m+q[0],0)/sc.tri.length,cy=sc.tri.reduce((m,q)=>m+q[1],0)/sc.tri.length;s+=`<text class="t-mut" x="${X(cx)}" y="${Y(cy)}" text-anchor="middle">nicht berücksichtigt</text>`}
     const ys=sc.tri.map(q=>q[1]);const ya=Math.min(...ys),yb=Math.max(...ys);const lx=sc.xp+(sc.inward?0.03:-0.03);
     s+=`<line class="s-hred" x1="${X(lx)}" y1="${Y(Math.max(ya,y0))}" x2="${X(lx)}" y2="${Y(Math.min(yb,y1))}"/>`;
     s+=`<text class="t-h" x="${X(lx+(sc.inward?0.02:-0.02))}" y="${Y((Math.max(ya,y0)+Math.min(yb,y1))/2)}" text-anchor="${sc.inward?'start':'end'}">h_red ${mm(sc.hred)}</text>`}
@@ -403,7 +597,7 @@ function drawSVG(P,sc,opt){opt=opt||{};
   const wm=[(W.p[0]+W.q[0])/2,(W.p[1]+W.q[1])/2];
   s+=`<text class="t-w" x="${(+X(wm[0])+8)}" y="${(+Y(wm[1])+(sc.bottom?14:-6))}">w ${mm(W.d)}</text>`;
   if(isFinite(sc.S.d)&&sc.S.p){const Sx=sc.S;s+=`<line class="s-s" x1="${X(Sx.p[0])}" y1="${Y(Sx.p[1])}" x2="${X(Sx.q[0])}" y2="${Y(Sx.q[1])}"/>`;
-    const sm=[(Sx.p[0]+Sx.q[0])/2,(Sx.p[1]+Sx.q[1])/2];
+    const sm=[Sx.p[0]*0.3+Sx.q[0]*0.7,Sx.p[1]*0.3+Sx.q[1]*0.7];
     s+=`<text class="t-s" x="${(+X(sm[0])-8)}" y="${Y(sm[1])}" text-anchor="end">s ${mm(Sx.d)}</text>`}
   // labels
   s+=`<text class="t-mut" x="10" y="18">innen</text><text class="t-mut" x="${Wpx-10}" y="18" text-anchor="end">außen</text>`;
@@ -414,7 +608,8 @@ function drawSVG(P,sc,opt){opt=opt||{};
 
 function drawChart(P,curve,aMax,aCur,aReq){
   const W=600,H=220,L=46,R=12,T=12,B=30;
-  const maxA=90;const vals=curve.map(c=>c.Ag);let maxY=Math.max(0.2,...vals,isNaN(P.soll)?0:P.soll)*1.12;
+  const maxA=90;const vals=curve.map(c=>c.Ag);const capL=P.n*P.b*P.h*(1-P.ded/100);
+  let maxY=Math.max(0.2,...vals,isNaN(P.soll)?0:P.soll,capL)*1.12;
   const step=maxY>2?0.5:maxY>1?0.25:0.1;maxY=Math.ceil(maxY/step)*step;
   const X=a=>L+(a/maxA)*(W-L-R),Y=v=>T+(1-v/maxY)*(H-T-B);
   let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Freier Querschnitt über Öffnungswinkel">`;
@@ -424,6 +619,7 @@ function drawChart(P,curve,aMax,aCur,aReq){
     s+=`<polygon class="c-area" points="${X(curve[0].a)},${Y(0)} ${pts.join(' ')} ${X(curve[curve.length-1].a)},${Y(0)}"/><polyline class="c-line" points="${pts.join(' ')}"/>`}
   if(!isNaN(P.soll)&&P.soll<=maxY)s+=`<line class="c-target" x1="${L}" x2="${W-R}" y1="${Y(P.soll)}" y2="${Y(P.soll)}"/>`;
   if(aMax<90)s+=`<line class="c-max" x1="${X(aMax)}" x2="${X(aMax)}" y1="${T}" y2="${H-B}"/>`;
+  s+=`<line class="c-cap" x1="${L}" x2="${W-R}" y1="${Y(capL)}" y2="${Y(capL)}"/><text class="t-mut" x="${W-R-4}" y="${Y(capL)-5}" text-anchor="end">Grenze lichte Öffnung ${f3(capL)} m²</text>`;
   const cur=curve.reduce((m,c)=>Math.abs(c.a-aCur)<Math.abs(m.a-aCur)?c:m,curve[0]||{a:0,Ag:0});
   if(curve.length&&aCur<=aMax+1e-9)s+=`<circle class="c-cur" cx="${X(aCur)}" cy="${Y(cur.Ag)}" r="5"/>`;
   return s+'</svg>';
@@ -433,54 +629,63 @@ function drawChart(P,curve,aMax,aCur,aReq){
 const $=id=>document.getElementById(id);
 function update(){
   document.querySelectorAll('#modes button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===S.mode)));
+  {const Pq=params();$('ceilHint').textContent=isFinite(Pq.u)?`Decke und Vordach werden ab der Flügeloberkante gemessen. Die Laibungsoberkante liegt R = ${mm(Pq.pr)} mm darüber. Das ist der kleinste Wert; bei genau diesem Wert bilden Laibung und Decke eine Fläche.`:''}
+  updSketch();
+  document.querySelectorAll('#dimMode button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.dim===(S.dim==='licht'?'licht':'fa'))));$('gridFa').hidden=S.dim==='licht';$('gridLicht').hidden=S.dim!=='licht';
+  document.querySelectorAll('#triSel button').forEach(b=>{const on=S[b.dataset.tri]!==false;b.setAttribute('aria-pressed',String(on));b.querySelector('small').textContent='Ansicht von innen · '+(on?'zählt mit':'nicht berücksichtigt')});
   document.querySelectorAll('#sides button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.side===(S.side==='merk'?'merk':'exakt'))));
   const P=params();
   document.querySelectorAll('input[data-k]').forEach(i=>i.classList.toggle('err',P.bad.includes(i.dataset.k)));
-  let a=num(S.alpha);if(isNaN(a))a=20;a=Math.max(1,Math.min(90,a));
+  let a=num(S.alpha);if(isNaN(a))a=20;a=Math.max(0,Math.min(90,a));
   if(document.activeElement!==$('alphaN'))$('alphaN').value=f1(a).replace(/,0$/,'');
   $('alphaR').value=a;
   const msgs=[];
   if(P.bad.length){
-    const names={b:'Breite b',h:'Höhe h',hf:'Flügelhöhe außen (muss ≥ lichte Höhe sein)',df:'Bautiefe Flügel (Flügel darf nicht hinter dem Rahmen herausstehen)',dr:'Bautiefe Rahmen',pr:'Platzbedarf auf dem Rahmen',v:'Flügelversatz (nicht negativ, nicht größer als die Wand)',ti:'Laibung innen',ta:'Laibung außen',c:'Decke (muss ≥ Ansichtsbreite Rahmen sein)',ca:'Vordach (muss ≥ Ansichtsbreite Rahmen sein)',a:'Abstand a'};
+    const names={gt:'Glasstärke G (i + G darf nicht größer als T2 sein, sonst ragt das Glas aus dem Profil)',b:'Lichte Breite b',h:'Lichte Höhe h',fb:'Flügelaußenbreite FB (muss größer als Ab sein)',fh:'Flügelaußenhöhe FH (muss größer als Ab sein)',ab:'Abzugswert Ab (nicht negativ)',r:'Platz auf dem Rahmen R (nicht negativ)',df:'Flügelprofiltiefe T2 (muss größer als ü sein)',dr:'Rahmenprofiltiefe T1',v:'Überschlag ü (muss größer als 0 sein, damit der Flügel auf dem Rahmen aufliegt)',ti:'Laibung innen',ta:'Laibung außen',c:`Decke (mindestens ${mm(P.pr)} mm = Platz auf dem Rahmen R, sonst läge sie unter der Laibungsoberkante)`,ca:`Vordach (mindestens ${mm(P.pr)} mm = Platz auf dem Rahmen R)`,a:'Abstand a'};
     $('msgs').innerHTML=`<div class="msg bad">Bitte prüfen: ${P.bad.map(k=>names[k]||k).join(', ')}.</div>`;
-    LAST=null;$('frameInfo').textContent='';$('kpis').innerHTML='';$('steps').textContent='';$('svgHost').innerHTML='';$('chartHost').innerHTML='';return}
+    LAST=null;req3D();$('frameInfo').textContent='';$('kpis').innerHTML='';$('steps').textContent='';$('svgHost').innerHTML='';$('chartHost').innerHTML='';return}
   // scan angles
   let aMax=90;const curve=[];let aReq=NaN;
   for(let x=0.5;x<=90.0001;x+=0.5){const sc=scene(P,x);if(sc.hits.length){aMax=x-0.5;break}const r=agOf(P,sc);curve.push({a:x,Ag:r.Ag});if(isNaN(aReq)&&!isNaN(P.soll)&&r.Ag>=P.soll)aReq=x}
   // refine max angle
   if(aMax<90){let lo=aMax,hi=aMax+0.5;for(let i=0;i<20;i++){const m=(lo+hi)/2;if(scene(P,m).hits.length)hi=m;else lo=m}aMax=lo}
   const sc=scene(P,a);const R=agOf(P,sc);
-  $('frameInfo').textContent=`Überschlag ü = ${mm(P.ue)} mm je Seite → Ansichtsbreite Rahmen = ü + Platzbedarf = ${mm(P.u)} mm. Flügel steht ${mm(P.v)} mm vor, Abstand Flügelfläche zur Wand ${mm(Math.max(0,(sc.inward?P.ti:P.ta)-P.v))} mm.`;
+  $('frameInfo').textContent=`Lichte Öffnung b × h = ${mm(P.b)} × ${mm(P.h)} mm (Flügelaußenmaß ${mm(P.fb)} × ${mm(P.fh)} − Ab ${mm(P.ab)}). Der Flügel überdeckt den Rahmen je Seite um Ab/2 = ${mm(P.ue)} mm, oberhalb des Flügels bleiben R = ${mm(P.pr)} mm Platz auf dem Rahmen, die Rahmenansicht beträgt Ab/2 + R = ${mm(P.u)} mm. Drehachse ${mm(P.bx)} mm vor der Rahmenebene und ${mm(P.by)} mm außerhalb der Flügelkante. Abstand Flügelfläche zur Wand ${mm(Math.max(0,(sc.inward?P.ti:P.ta)-P.v))} mm.`;
   $('svgHost').innerHTML=drawSVG(P,sc);
   $('chartHost').innerHTML=drawChart(P,curve,aMax,a,aReq);
   $('chartNote').textContent=aMax<90?`max. ${f1(aMax)}° ohne Kollision`:'keine Kollision bis 90°';
   const limTxt=sc.limited?`<span class="limit">begrenzt durch ${esc(sc.S.name)}</span>`:`<span class="limit free">w maßgebend</span>`;
   $('kpis').innerHTML=`
-    <div class="kpi main"><div class="k">A_g</div><div class="v">${sc.hits.length?'–':f3(R.Ag)+' m²'}</div></div>
+    <div class="kpi main"><div class="k">A_g</div><div class="v">${sc.hits.length?'–':f3(R.Ag)+' m²'}</div>${R.capped&&!sc.hits.length?'<div class="note">begrenzt auf lichte Öffnung</div>':''}</div>
     <div class="kpi"><div class="k">w (Flügel–Rahmen)</div><div class="v">${mm(sc.W.d)} mm</div></div>
     <div class="kpi"><div class="k">s (Störkontur)</div><div class="v">${isFinite(sc.S.d)?mm(sc.S.d)+' mm':'–'}</div></div>
-    <div class="kpi"><div class="k">Dreieck außerhalb Laibung</div><div class="v">2 × ${f3(sc.triA)} m²</div></div>`;
+    <div class="kpi"><div class="k">Seitendreiecke (${P.k} von 2)</div><div class="v">${P.k} × ${f3(sc.triA)} m²</div></div>`;
   const st=[];
   st.push(`Öffnungsart: ${({kipp:'Kippflügel, Band unten, nach innen',klappIn:'Klappflügel, Band oben, nach innen',senk:'Senkklappflügel, Band unten, nach außen',klappAus:'Klappflügel, Band oben, nach außen'})[P.mode]}, α = ${f1(a)}°`);
-  st.push(`w = ${mm(sc.W.d)} mm   (kleinster Abstand Flügel – Rahmenprofil an der Öffnungskante)`);
-  if(isFinite(sc.S.d))st.push(`s = ${mm(sc.S.d)} mm   (kleinster Abstand Flügel – ${sc.S.name})`);
+  st.push(`w = ${mm(sc.W.d)} mm   (Flügel-Innenkante an der Öffnungsseite – Rahmenprofil)`);
+  if(isFinite(sc.S.d))st.push(`s = ${mm(sc.S.d)} mm   (Flügelkante an der Öffnungsseite – ${sc.S.name})`);
   st.push(sc.limited?`s ≤ w  →  w_eff = s = ${mm(sc.weff)} mm`:`s > w  →  w_eff = w = ${mm(sc.weff)} mm`);
   st.push(`Seitendreieck außerhalb der Laibung (Abstand Flügelfläche–Wand t = ${mm(sc.t)} mm):`);
   st.push(`   Höhe h_red = ${mm(sc.hred)} mm, Breite an der Spitze = ${mm(sc.triB)} mm, Fläche A_Δ = ${f3(sc.triA)} m² je Seite`);
   const wE=f3(sc.weff),bE=f3(P.b),hE=f3(sc.hred),tE=f3(sc.triA);
   const ex=P.side!=='merk';
   st.push(ex?'Methode: exaktes Dreieck':'Methode: Merkblatt-Näherung w · h_red');
-  if(R.form==='single')st.push(`A_g exakt     = w_eff · b + 2 · A_Δ = ${wE} · ${bE} + 2 · ${tE} = ${f3(R.ex)} m²`);
-  if(R.form==='coupled')st.push(`a = ${mm(P.a)} mm ≤ ½b → A_g exakt = w_eff · n · b + 2 · A_Δ = ${wE} · ${P.n} · ${bE} + 2 · ${tE} = ${f3(R.ex)} m²`);
-  if(R.form==='separate')st.push(`a = ${mm(P.a)} mm > ½b → A_g exakt = n · (w_eff · b + 2 · A_Δ) = ${f3(R.ex)} m²`);
-  const mbF=R.form==='single'?`w_eff · (b + h_red) = ${wE} · (${bE} + ${hE})`:R.form==='coupled'?`w_eff · (n·b + h_red)`:`n · w_eff · (b + h_red)`;
+  const kk=P.k,hk=kk===2?'h_red':kk===1?'½ · h_red':'0';
+  st.push(`Seitendreiecke berücksichtigt: ${kk} von 2 (links ${P.triL?'ja':'nein'}, rechts ${P.triR?'ja':'nein'})`);
+  if(R.form==='single')st.push(`A_g exakt     = w_eff · b + ${kk} · A_Δ = ${wE} · ${bE} + ${kk} · ${tE} = ${f3(R.ex)} m²`);
+  if(R.form==='coupled')st.push(`a = ${mm(P.a)} mm ≤ ½b → A_g exakt = w_eff · n · b + ${kk} · A_Δ = ${wE} · ${P.n} · ${bE} + ${kk} · ${tE} = ${f3(R.ex)} m²`);
+  if(R.form==='separate')st.push(`a = ${mm(P.a)} mm > ½b → A_g exakt = n · (w_eff · b + ${kk} · A_Δ) = ${f3(R.ex)} m²`);
+  const mbF=R.form==='single'?`w_eff · (b + ${hk}) = ${wE} · (${bE} + ${f3(sc.hred*kk/2)})`:R.form==='coupled'?`w_eff · (n·b + ${hk})`:`n · w_eff · (b + ${hk})`;
   st.push(`A_g Merkblatt = ${mbF} = ${f3(R.mb)} m²`);
-  if(R.capped)st.push(`Begrenzung auf lichte Gebäudeöffnung n · b · h = ${f3(R.cap)} m²`);
+  st.push(`Grenze lichte Öffnung n · b · h = ${P.n} · ${bE} · ${f3(P.h)} = ${f3(R.cap)} m²`);
+  if(R.capped)st.push(`${P.side==='merk'?'A_g Merkblatt':'A_g exakt'} ${f3(P.side==='merk'?R.mb:R.ex)} m² > ${f3(R.cap)} m²  →  A_g = ${f3(R.cap)} m² (Rechteck + Dreiecke größer als die Öffnung)`);
   if(P.ded>0)st.push(`Abzug Einbauten ${f1(P.ded)} %  →  ${f3(R.Ag)} m²`);
   $('steps').textContent=st.join('\n');
   // messages
   if(sc.hits.length)msgs.push(['bad',`Der Flügel kollidiert bei ${f1(a)}° mit: ${sc.hits.join(', ')}. Größter möglicher Öffnungswinkel: ${f1(aMax)}°.`]);
-  if(!sc.hits.length&&sc.limited)msgs.push(['warn',`${sc.S.name} ist maßgebende Störkontur: s = ${mm(sc.S.d)} mm ist kleiner als w = ${mm(sc.W.d)} mm. Ein größerer Öffnungswinkel bringt hier ${sc.S.d<sc.W.d*0.7?'kaum':'nur begrenzt'} mehr Fläche.`]);
+  if(!sc.hits.length&&R.capped)msgs.push(['warn',`Rechteck und Seitendreiecke ergeben zusammen ${f3(P.side==='merk'?R.mb:R.ex)} m² und damit mehr als die lichte Öffnung. A_g ist auf n · b · h = ${f3(R.cap)} m² begrenzt; ein größerer Öffnungswinkel bringt keine zusätzliche Fläche.`]);
+  if(!isNaN(P.soll)&&P.soll>R.cap*(1-P.ded/100)+1e-9)msgs.push(['bad',`Die Anforderung ${f2(P.soll)} m² ist größer als die lichte Öffnung${P.ded>0?' nach Abzug der Einbauten':''} (${f3(R.cap*(1-P.ded/100))} m²). Sie ist mit dieser Fenstergröße nicht erreichbar.`]);
+  if(!sc.hits.length&&sc.limited&&!R.capped)msgs.push(['warn',`${sc.S.name} ist maßgebende Störkontur: s = ${mm(sc.S.d)} mm ist kleiner als w = ${mm(sc.W.d)} mm. Ein größerer Öffnungswinkel bringt hier ${sc.S.d<sc.W.d*0.7?'kaum':'nur begrenzt'} mehr Fläche.`]);
   if(sc.hred<=0)msgs.push(['warn','Der Flügel ragt nicht über die Laibung hinaus. Seitlich entsteht kein freier Querschnitt.']);
   if(!isNaN(P.soll)&&!sc.hits.length){
     if(R.Ag>=P.soll)msgs.push(['ok',`Anforderung ${f2(P.soll)} m² erfüllt (${f3(R.Ag)} m²).${!isNaN(aReq)?` Mindestens erforderlich: α ≈ ${f1(aReq)}°.`:''}`]);
@@ -488,11 +693,154 @@ function update(){
     else{const best=curve.reduce((m,c)=>c.Ag>m.Ag?c:m,{Ag:0,a:0});msgs.push(['bad',`Anforderung ${f2(P.soll)} m² ist mit dieser Einbausituation nicht erreichbar. Maximum: ${f3(best.Ag)} m² bei ${f1(best.a)}°.`])}}
   msgs.push(['info','Prüfen, ob der Antrieb den Winkel mit seinem Hub erreicht und ob der Einbau weitere Störkonturen hat, die hier nicht erfasst sind (z. B. Heizkörper, Fensterbank, Sonnenschutz).']);
   $('msgs').innerHTML=msgs.map(([t,m])=>`<div class="msg ${t}">${esc(m)}</div>`).join('');
-  LAST={P,sc,R,st,msgs,a,aMax,aReq};
+  LAST={P,sc,R,st,msgs,a,aMax,aReq};req3D();
 }
 
 /* ---------- drawing sheet (A4 landscape) ---------- */
 let LAST=null;
+/* ---------- 3D model (own canvas renderer, works offline) ---------- */
+let VIEW='2d';try{if(localStorage.getItem(KEY+'-view')==='3d')VIEW='3d'}catch(e){}
+const CAMS={innen:[Math.PI+0.75,0.32],aussen:[0.75,0.32],seite:[Math.PI/2+0.06,0.06],oben:[Math.PI+0.55,1.1]};
+const CAM={yaw:CAMS.innen[0],pitch:CAMS.innen[1],zoom:1};
+function cssColor(name,fb){const v=getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const m=v.match(/^#([0-9a-f]{6})$/i);if(m){const n=parseInt(m[1],16);return[n>>16&255,n>>8&255,n&255]}
+  const r=v.match(/rgba?\(([^)]+)\)/);if(r)return r[1].split(',').slice(0,3).map(Number);return fb}
+function boxFaces(x0,x1,y0,y1,z0,z1){const v=[[x0,y0,z0],[x1,y0,z0],[x1,y1,z0],[x0,y1,z0],[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]];
+  return [[0,3,2,1],[4,5,6,7],[0,1,5,4],[3,7,6,2],[0,4,7,3],[1,2,6,5]].map(f=>f.map(i=>v[i]))}
+const sub3=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],dot3=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+  cross3=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],
+  norm3=a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l]};
+function themeColors3D(){
+  const C={wall:cssColor('--wall',[201,206,212]),frame:cssColor('--frame',[93,107,122]),glass:cssColor('--glass',[207,227,243]),prof:cssColor('--prof',[174,184,195]),
+    ok:cssColor('--ok',[29,122,76]),muted:cssColor('--muted',[91,104,118]),blue:cssColor('--blue',[31,79,138]),bad:cssColor('--bad',[179,38,30]),fg:cssColor('--fg',[24,34,45])};
+  const bgc=cssColor('--surface',[255,255,255]);if((bgc[0]*.3+bgc[1]*.59+bgc[2]*.11)<90){const lift=c=>c.map(x=>Math.min(255,Math.round(x*1.45+12)));C.wall=lift(C.wall);C.frame=lift(C.frame);C.prof=lift(C.prof)}
+  return C}
+const PRINT3D={wall:[201,206,212],frame:[93,107,122],glass:[207,227,243],prof:[174,184,195],ok:[29,122,76],muted:[91,104,118],blue:[31,79,138],bad:[179,38,30],fg:[24,34,45]};
+function build3D(P,sc,Cin){
+  const C=Cin?Object.assign({},Cin):themeColors3D();
+  const items=[];const solid=(faces,col,edge)=>faces.forEach(f=>items.push({pts:f,col,solid:true,edge}));
+  const {b,h,u,dr,ue,v,df}=P;const xi=-P.ti,xa=dr+P.ta,m=0.3;
+  const Z0=-u-m,Z1=b+u+m,Yb=-u-m;let Yt=h+u+m;
+  if(P.c!==null)Yt=h+P.c+0.2;if(P.ca!==null)Yt=Math.max(Yt,h+P.ca+0.16);
+  // wall around the opening
+  // split at the frame so no hidden contact faces compete with the frame in the painter's sort
+  // face order: 0 z0, 1 z1, 2 y0, 3 y1, 4 x0, 5 x1
+  const wallPiece=(y0,y1,z0,z1,toOpen)=>{[[xi,0,[5]],[0,dr,[4,5,toOpen]],[dr,xa,[4]]].forEach(([x0,x1,skip])=>{if(x1-x0<1e-6)return;
+    boxFaces(x0,x1,y0,y1,z0,z1).forEach((f,i)=>{if(!skip.includes(i))items.push({pts:f,col:C.wall,solid:true})})})};
+  wallPiece(h+u,Yt,Z0,Z1,2);wallPiece(Yb,-u,Z0,Z1,3);wallPiece(-u,h+u,Z0,-u,1);wallPiece(-u,h+u,b+u,Z1,0);
+  if(P.c!==null)solid(boxFaces(xi-sc.roomD,xi,h+P.c,h+P.c+0.2,Z0,Z1),C.wall);
+  if(P.ca!==null)solid(boxFaces(xa,xa+P.cl,h+P.ca,h+P.ca+0.16,Z0,Z1),C.wall);
+  // frame
+  solid(boxFaces(0,dr,h,h+u,-u,b+u),C.frame);solid(boxFaces(0,dr,-u,0,-u,b+u),C.frame);
+  solid(boxFaces(0,dr,0,h,-u,0),C.frame);solid(boxFaces(0,dr,0,h,b,b+u),C.frame);
+  // sash: body in the clear opening + Aufschlag resting on the frame, rotated about the hinge
+  const F=sc.inward?0:dr,sg=sc.inward?-1:1,L=F+sg*v,B=F-sg*(df-v);const th=(sc.bottom===sc.inward)?sc.al:-sc.al;
+  const T=p=>{const q=rot([p[0],p[1]],sc.hinge,th);return[q[0],q[1],p[2]]};
+  const sCol=sc.hits.length?C.bad:C.prof,sEdge=sCol.map(x=>Math.round(x*0.55));
+  const G=sc.glz,Sm=G.Sm,yT0=G.yT0,yB1=G.yB1,X2=(p_,q_)=>[Math.min(p_,q_),Math.max(p_,q_)];
+  const [lx0,lx1]=X2(L,F),[bx0,bx1]=X2(F,B),hasLip=Math.abs(L-F)>1e-6;
+  const mem=[]; // [x0,x1,y0,y1,z0,z1]
+  if(hasLip)mem.push([lx0,lx1,yT0,h+ue,-ue,b+ue],[lx0,lx1,-ue,yB1,-ue,b+ue],[lx0,lx1,yB1,yT0,-ue,-ue+Sm],[lx0,lx1,yB1,yT0,b+ue-Sm,b+ue]);
+  mem.push([bx0,bx1,yT0,h,0,b],[bx0,bx1,0,yB1,0,b],[bx0,bx1,yB1,yT0,0,-ue+Sm],[bx0,bx1,yB1,yT0,b+ue-Sm,b]);
+  mem.forEach(m_=>{if(m_[1]-m_[0]>1e-6&&m_[3]-m_[2]>1e-6&&m_[5]-m_[4]>1e-6)solid(boxFaces(...m_).map(f=>f.map(T)),sCol,sEdge)});
+  [G.g0,G.g1].forEach(gx=>items.push({pts:[[gx,yB1,-ue+Sm],[gx,yT0,-ue+Sm],[gx,yT0,b+ue-Sm],[gx,yB1,b+ue-Sm]].map(T),col:C.glass,alpha:.32,edge:C.blue}));
+  // free cross-section: front gap along w, side triangles in the planes of the sash sides
+  const labels=[['innen',[xi-0.45,Yb+0.08,b/2]],['außen',[xa+0.45,Yb+0.08,b/2]]];
+  // ventilation area at the main closing edge (Hauptschließkante): from the sash edge to the governing contour,
+  // the frame (w) or the obstacle (s: ceiling, lintel in the reveal, canopy, sill); the other one dashed
+  const band=(m_,on)=>{const a=m_.p,q=m_.q;items.push({pts:[[a[0],a[1],0],[q[0],q[1],0],[q[0],q[1],b],[a[0],a[1],b]],
+    col:on?C.blue:C.muted,alpha:on?.42:.1,edge:on?C.blue:C.muted,dash:!on})};
+  const okM=m_=>m_&&m_.p&&m_.q&&isFinite(m_.d)&&m_.d>0;
+  const gov=sc.limited&&okM(sc.S)?sc.S:sc.W,other=gov===sc.W?sc.S:sc.W;
+  if(okM(other))band(other,false);
+  if(okM(gov)){band(gov,true);const mid=[(gov.p[0]+gov.q[0])/2,(gov.p[1]+gov.q[1])/2,b/2];
+    labels.push(['w_eff · b',mid,C.blue])}
+  const ZU={Decke:'zur Decke',Brüstung:'zur Brüstung',Sturz:'zum Sturz',Vordach:'zum Vordach'};
+  const hsk=okM(gov)?`Hauptschließkante: w_eff · b = ${f3(sc.weff*b)} m² ${gov===sc.W?'zum Rahmen (w)':(ZU[gov.name]||'zur Störkontur')+' (s)'}`:'';
+  if(sc.tri.length){
+    const cx=sc.tri.reduce((m_,t)=>m_+t[0],0)/sc.tri.length,cy=sc.tri.reduce((m_,t)=>m_+t[1],0)/sc.tri.length;
+    [[0,P.triL,'links'],[b,P.triR,'rechts']].forEach(([z,on,lab])=>{items.push({pts:sc.tri.map(t=>[t[0],t[1],z]),col:on?C.ok:C.muted,alpha:on?.45:.18,edge:on?C.ok:C.muted,dash:!on});
+      labels.push([lab+(on?'':' (abgewählt)'),[cx,cy,z]])});
+  }
+  // fit the camera to the whole model (walls, ceiling, canopy, open sash)
+  const lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
+  for(const it of items)for(const q of it.pts)for(let k=0;k<3;k++){lo[k]=Math.min(lo[k],q[k]);hi[k]=Math.max(hi[k],q[k])}
+  const target=[(lo[0]+hi[0])/2,(lo[1]+hi[1])/2,(lo[2]+hi[2])/2];
+  const size=Math.max(hi[0]-lo[0],hi[1]-lo[1],hi[2]-lo[2])*0.92;
+  return{items,labels,hsk,C,blue:C.blue,target,size};
+}
+let raf3=0;function req3D(){if(VIEW!=='3d')return;if(!raf3)raf3=requestAnimationFrame(()=>{raf3=0;draw3D()})}
+function render3D(ctx,W,H,cam,Cin,bg,opt){opt=opt||{};const k=opt.k||1;
+  const M=build3D(LAST.P,LAST.sc,Cin);const muted=`rgb(${M.C.muted})`;
+  const dist=M.size*2.1/cam.zoom,cp=Math.cos(cam.pitch);
+  const eye=[M.target[0]+dist*cp*Math.cos(cam.yaw),M.target[1]+dist*Math.sin(cam.pitch),M.target[2]+dist*cp*Math.sin(cam.yaw)];
+  const fw=norm3(sub3(M.target,eye)),rt=norm3(cross3(fw,[0,1,0])),up=cross3(rt,fw);const foc=Math.min(W,H)*1.15;
+  const proj=q=>{const d=sub3(q,eye);const z=dot3(d,fw);return[W/2+foc*dot3(d,rt)/z,H/2-foc*dot3(d,up)/z,z]};
+  const light=norm3([-0.35,0.85,0.4]);const polys=[];
+  for(const it of M.items){
+    const n=norm3(cross3(sub3(it.pts[1],it.pts[0]),sub3(it.pts[2],it.pts[0])));
+    if(it.solid){
+      const c=it.pts.reduce((a,q)=>[a[0]+q[0]/4,a[1]+q[1]/4,a[2]+q[2]/4],[0,0,0]);if(dot3(n,sub3(eye,c))<=0)continue;
+      const sh=0.62+0.38*Math.max(0,dot3(n,light));const col=it.col.map(x=>Math.round(x*sh));const ec=it.edge||null;
+      const [a,bq,,d]=it.pts;const e1=sub3(bq,a),e2=sub3(d,a);
+      const ns=Math.max(1,Math.ceil(Math.hypot(...e1)/0.18)),nt=Math.max(1,Math.ceil(Math.hypot(...e2)/0.18));
+      const at=(s_,t_)=>[a[0]+e1[0]*s_+e2[0]*t_,a[1]+e1[1]*s_+e2[1]*t_,a[2]+e1[2]*s_+e2[2]*t_];
+      for(let i=0;i<ns;i++)for(let j=0;j<nt;j++){const s0=i/ns,s1=(i+1)/ns,t0=j/nt,t1=(j+1)/nt;
+        polys.push({q:[at(s0,t0),at(s1,t0),at(s1,t1),at(s0,t1)],col,ec,alpha:1,edges:[j===0,i===ns-1,j===nt-1,i===0]})}
+    }else polys.push({q:it.pts,col:it.col,ec:it.edge,alpha:it.alpha,edges:it.pts.map(()=>true),dash:it.dash});
+  }
+  const pr=[];for(const pl of polys){const sp=pl.q.map(proj);if(sp.some(q=>q[2]<0.02))continue;pl.sp=sp;pl.z=sp.reduce((m_,q)=>m_+q[2],0)/sp.length;pr.push(pl)}
+  pr.sort((A,B)=>B.z-A.z);
+  for(const pl of pr){
+    ctx.beginPath();pl.sp.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));ctx.closePath();
+    ctx.globalAlpha=pl.alpha;ctx.fillStyle=`rgb(${pl.col})`;ctx.fill();
+    if(pl.alpha===1){ctx.strokeStyle=ctx.fillStyle;ctx.lineWidth=0.8*k;ctx.stroke()}
+    if(!pl.ec)continue;
+    ctx.globalAlpha=pl.alpha===1?1:0.9;ctx.strokeStyle=`rgb(${pl.ec})`;ctx.lineWidth=(pl.alpha===1?1:1.5)*k;ctx.setLineDash(pl.dash?[5*k,4*k]:[]);
+    ctx.beginPath();for(let q=0;q<pl.sp.length;q++){if(!pl.edges[q])continue;const A=pl.sp[q],B=pl.sp[(q+1)%pl.sp.length];ctx.moveTo(A[0],A[1]);ctx.lineTo(B[0],B[1])}
+    ctx.stroke();ctx.setLineDash([]);
+  }
+  ctx.globalAlpha=1;ctx.font=`${12*k}px "IBM Plex Mono",ui-monospace,monospace`;ctx.textAlign='center';
+  const inPoly=(x,y,P_)=>{let c=false;for(let i=0,j=P_.length-1;i<P_.length;j=i++){const a=P_[i],b_=P_[j];if((a[1]>y)!==(b_[1]>y)&&x<(b_[0]-a[0])*(y-a[1])/(b_[1]-a[1])+a[0])c=!c}return c};
+  const hidden=sp=>pr.some(pl=>pl.alpha===1&&pl.z<sp[2]-0.03&&inPoly(sp[0],sp[1],pl.sp));
+  const placed=[];
+  for(const [t,q,lc] of M.labels){const sp=proj(q);if(sp[2]<=0.02||hidden(sp))continue;if(placed.some(o=>Math.abs(o[0]-sp[0])<70*k&&Math.abs(o[1]-sp[1])<18*k))continue;placed.push(sp);
+    ctx.fillStyle=`rgb(${bg})`;const w_=ctx.measureText(t).width+8*k;ctx.globalAlpha=.8;ctx.fillRect(sp[0]-w_/2,sp[1]-12*k,w_,16*k);ctx.globalAlpha=1;
+    ctx.fillStyle=lc?`rgb(${lc})`:muted;ctx.fillText(t,sp[0],sp[1])}
+  if(opt.hud!==false){ctx.textAlign='left';if(M.hsk){ctx.fillStyle=`rgb(${M.blue})`;ctx.fillText(M.hsk,10*k,H-28*k)}
+    ctx.fillStyle=muted;ctx.fillText(`α = ${f1(LAST.a)}°  ·  A_g = ${LAST.sc.hits.length?'–':f3(LAST.R.Ag)+' m²'}`,10*k,H-10*k)}
+  return M;
+}
+function draw3D(){
+  const host=$('host3d');if(host.hidden)return;const cv=$('cv3d');const ctx=cv.getContext('2d');
+  const W=host.clientWidth||600,H=Math.round(Math.min(Math.max(W*0.78,300),560));const dpr=window.devicePixelRatio||1;
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
+  cv.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);
+  const bg=cssColor('--surface',[255,255,255]);ctx.fillStyle=`rgb(${bg})`;ctx.fillRect(0,0,W,H);
+  if(!LAST){ctx.fillStyle=`rgb(${cssColor('--muted',[91,104,118])})`;ctx.font='14px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('Bitte die markierten Eingaben korrigieren.',W/2,H/2);return}
+  render3D(ctx,W,H,CAM,null,bg,{});
+}
+function setView(v){VIEW=v;try{localStorage.setItem(KEY+'-view',v)}catch(e){}
+  $('svgHost').hidden=v!=='2d';$('host3d').hidden=v!=='3d';
+  document.querySelectorAll('#viewTabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===v)));if(v==='3d')draw3D()}
+$('viewTabs').addEventListener('click',e=>{const b=e.target.closest('[data-view]');if(b)setView(b.dataset.view)});
+$('cam3d').addEventListener('click',e=>{const b=e.target.closest('[data-cam]');if(!b)return;const c=CAMS[b.dataset.cam];CAM.yaw=c[0];CAM.pitch=c[1];CAM.zoom=1;draw3D()});
+(()=>{const cv=$('cv3d');const pts=new Map();let pinch0=0,zoom0=1;
+  cv.addEventListener('pointerdown',e=>{try{cv.setPointerCapture(e.pointerId)}catch(_){}pts.set(e.pointerId,[e.clientX,e.clientY]);
+    if(pts.size===2){const [a,b]=[...pts.values()];pinch0=Math.hypot(a[0]-b[0],a[1]-b[1]);zoom0=CAM.zoom}});
+  cv.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const prev=pts.get(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
+    if(pts.size===2&&pinch0){const [a,b]=[...pts.values()];CAM.zoom=Math.min(4,Math.max(0.4,zoom0*Math.hypot(a[0]-b[0],a[1]-b[1])/pinch0))}
+    else if(pts.size===1){CAM.yaw+=(e.clientX-prev[0])*0.01;CAM.pitch=Math.max(-1.3,Math.min(1.35,CAM.pitch+(e.clientY-prev[1])*0.008))}
+    req3D()});
+  const end=e=>{pts.delete(e.pointerId);if(pts.size<2)pinch0=0};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  cv.addEventListener('wheel',e=>{e.preventDefault();CAM.zoom=Math.min(4,Math.max(0.4,CAM.zoom*Math.exp(-e.deltaY*0.0015)));req3D()},{passive:false});
+  cv.addEventListener('keydown',e=>{const k={ArrowLeft:[-.1,0],ArrowRight:[.1,0],ArrowUp:[0,-.08],ArrowDown:[0,.08]}[e.key];if(!k)return;e.preventDefault();
+    CAM.yaw+=k[0];CAM.pitch=Math.max(-1.3,Math.min(1.35,CAM.pitch+k[1]));req3D()});
+})();
+window.addEventListener('resize',req3D);
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',req3D)}catch(e){}
+
+
 const MODES={kipp:'Kippflügel, Band unten, öffnet nach innen',klappIn:'Klappflügel, Band oben, öffnet nach innen',senk:'Senkklappflügel, Band unten, öffnet nach außen',klappAus:'Klappflügel, Band oben, öffnet nach außen'};
 function wrapLines(lines,n){const out=[];for(const line of lines){let l=line;while(l.length>n){let i=l.lastIndexOf(' ',n);if(i<n*0.5)i=n;out.push(l.slice(0,i));l='     '+l.slice(i).trimStart()}out.push(l)}return out}
 function sheetSVG(raster){
@@ -510,9 +858,9 @@ function sheetSVG(raster){
   const css=`text{font-family:Arial,Helvetica,sans-serif;fill:#18222d}
 .mono{font-family:'Courier New',Courier,monospace}
 .s-wall,.s-ceil{fill:url(#hatch);stroke:#8e98a3;stroke-width:1}.hatch-bg{fill:#d9dde2}.hatch-l{stroke:#8e98a3;stroke-width:1}
-.s-frame{fill:#5d6b7a}.s-sash{fill:#cfe3f3;stroke:#18222d;stroke-width:1.5}.s-sash.hit{fill:#fbe4e2;stroke:#b3261e;stroke-width:2.5}
+.s-frame{fill:#aeb8c3;stroke:#5d6b7a;stroke-width:1}.s-prof{fill:#aeb8c3;stroke:#18222d;stroke-width:1.2}.s-prof.hit,.s-bead.hit{fill:#fbe4e2;stroke:#b3261e}.s-bead{fill:#aeb8c3;stroke:#18222d;stroke-width:.8}.s-pane{fill:#cfe3f3;stroke:#1f4f8a;stroke-width:.8}.s-gap{fill:#cfe3f3;fill-opacity:.35}.s-cham{fill:#ffffff;stroke:#18222d;stroke-width:.5}.s-fcham{fill:#ffffff;stroke:#5d6b7a;stroke-width:.6}.s-tb{fill:#5b6876}.s-block{fill:#5b6876}.s-spacer{fill:#5d6b7a}.s-gask{fill:#18222d}.det *{vector-effect:non-scaling-stroke}.det-bg{fill:#ffffff}.det-frame{fill:none;stroke:#18222d;stroke-width:1}.det-mark{fill:none;stroke:#18222d;stroke-width:1;stroke-dasharray:3 3}.s-sash{fill:#cfe3f3;stroke:#18222d;stroke-width:1.5}.s-sash.hit{fill:#fbe4e2;stroke:#b3261e;stroke-width:2.5}
 .s-ghost{fill:none;stroke:#5b6876;stroke-dasharray:4 4;stroke-width:1}.s-w{stroke:#1f4f8a;stroke-width:2}.s-s{stroke:#d95d14;stroke-width:2}
-.s-plane{stroke:#5b6876;stroke-dasharray:6 4;stroke-width:1}.s-hred{stroke:#1d7a4c;stroke-width:2.5}.s-tri{fill:#e1f2e8;stroke:#1d7a4c;stroke-width:1.5}
+.s-plane{stroke:#5b6876;stroke-dasharray:6 4;stroke-width:1}.s-hred{stroke:#1d7a4c;stroke-width:2.5}.s-tri{fill:#e1f2e8;stroke:#1d7a4c;stroke-width:1.5}.s-tri.off{fill:#5b6876;fill-opacity:.16;stroke:#5b6876;stroke-dasharray:5 4}
 .s-hinge{fill:#d95d14}
 .t-lab{font-size:${fsD}px;fill:#18222d}.t-mut{font-size:${fsDs}px;fill:#5b6876}.t-w{font-size:${fsD}px;fill:#1f4f8a;font-weight:bold}
 .t-s{font-size:${fsD}px;fill:#d95d14;font-weight:bold}.t-h{font-size:${fsD}px;fill:#1d7a4c;font-weight:bold}.t-bad{font-size:${fsD}px;fill:#b3261e;font-weight:bold}`;
@@ -533,11 +881,11 @@ function sheetSVG(raster){
   o+=`<text x="${X0+2}" y="${y+0.8}" font-size="5" font-weight="bold" fill="#b44a0c">${sc.hits.length?'Kollision – kein gültiger Querschnitt':'A_g = '+f3(R.Ag)+' m²'}</text>`;
   o+=`<text x="${X0+114}" y="${y+0.8}" font-size="2.4" text-anchor="end" fill="#5b6876">${P.side==='merk'?'Merkblatt-Näherung':'exaktes Seitendreieck'}</text>`;y+=8;
   if(!isNaN(P.soll)){const okk=!sc.hits.length&&R.Ag>=P.soll;o+=`<text x="${X0}" y="${y}" font-size="2.8" font-weight="bold" fill="${okk?'#1d7a4c':'#b3261e'}">${okk?'Anforderung erfüllt':'Anforderung nicht erfüllt'}: gefordert ${f2(P.soll)} m²${!isNaN(aReq)?` · erreicht ab α ≈ ${f1(aReq)}°`:''}</text>`;y+=4.5}
-  o+=`<text x="${X0}" y="${y}" font-size="2.6" fill="#5b6876">Maßgebend: ${sc.limited?E(sc.S.name)+' (s ≤ w)':'Öffnungsweite w'} · Kollisionsgrenze ${aMax<90?f1(aMax)+'°':'keine bis 90°'}</text>`;y+=8;
+  o+=`<text x="${X0}" y="${y}" font-size="2.6" fill="#5b6876">Maßgebend: ${R.capped?'lichte Öffnung n · b · h':sc.limited?E(sc.S.name)+' (s ≤ w)':'Öffnungsweite w'} · Kollisionsgrenze ${aMax<90?f1(aMax)+'°':'keine bis 90°'}</text>`;y+=8;
   o+=`<text x="${X0}" y="${y}" font-size="3.4" font-weight="bold">Eingaben</text>`;y+=5;
   const v=x=>has(x)?num(x).toLocaleString('de-DE')+' mm':'–';
-  const rows=[['Öffnungsart',MODES[P.mode]],['Lichte Öffnung b × h',`${v(S.b)} × ${v(S.h)}`],['Flügelhöhe außen / Überschlag',`${v(S.hf)} / ${mm(P.ue)} mm`],['Bautiefe Flügel / Rahmen',`${v(S.df)} / ${v(S.dr)}`],['Platzbedarf Rahmen / Ansicht',`${v(S.pr)} / ${mm(P.u)} mm`],['Flügelversatz',v(S.v)],['Laibung innen / außen',`${v(S.ti)} / ${v(S.ta)}`],['Decke UK über OK lichte Öffnung',has(S.c)?v(S.c):'keine'],['Vordach UK / Auskragung',has(S.ca)?`${v(S.ca)} / ${v(S.cl)}`:'kein'],['Anzahl Fenster / Abstand a',P.n>1?`${P.n} / ${v(S.a)}`:'1'],['Abzug Einbauten',P.ded>0?f1(P.ded)+' %':'keiner']];
-  rows.forEach(([k,val],i)=>{if(i%2===0)o+=`<rect x="${X0}" y="${y-2.6}" width="116" height="3.6" fill="#f2f4f6"/>`;o+=`<text x="${X0+1}" y="${y}" font-size="2.4" fill="#5b6876">${E(k)}</text><text x="${X0+50}" y="${y}" font-size="2.4">${E(val)}</text>`;y+=3.6});
+  const rows=[['Öffnungsart',MODES[P.mode]],['Flügelaußenmaß FB × FH',`${mm(P.fb)} × ${mm(P.fh)} mm`],['Lichte Öffnung b × h',`${mm(P.b)} × ${mm(P.h)} mm (Ab ${mm(P.ab)} mm)`],['Profiltiefe Rahmen T1 / Flügel T2',`${mm(P.dr)} / ${mm(P.df)} mm`],['Überschlag ü / Platz auf Rahmen R',`${mm(P.v)} / ${mm(P.pr)} mm (Rahmenansicht ${mm(P.u)} mm)`],['Band Bx / By',`${mm(P.bx)} / ${mm(P.by)} mm`],['i-Maß / Glasstärke G / Platz Flügel S',`${has(S.im)?v(S.im):'–'} / ${has(S.gt)?v(S.gt):'–'} / ${has(S.sf)?v(S.sf):'–'}`],['Laibung innen / außen',`${v(S.ti)} / ${v(S.ta)}`],['Decke UK über Flügeloberkante',has(S.c)?v(S.c)+(Math.abs(num(S.c)/1000-P.pr)<1e-6?' (bündig mit Laibung)':''):'keine'],['Vordach UK über Flügel-OK / Auskragung',has(S.ca)?`${v(S.ca)} / ${v(S.cl)}`:'kein'],['Anzahl Fenster / Abstand a',P.n>1?`${P.n} / ${v(S.a)}`:'1'],['Seitendreiecke',P.k===2?'beide':P.k===0?'keine':(P.triL?'nur links':'nur rechts')+' (Ansicht innen)'],['Abzug Einbauten',P.ded>0?f1(P.ded)+' %':'keiner']];
+  rows.forEach(([k,val],i)=>{if(i%2===0)o+=`<rect x="${X0}" y="${y-2.6}" width="116" height="3.3" fill="#f2f4f6"/>`;o+=`<text x="${X0+1}" y="${y}" font-size="2.3" fill="#5b6876">${E(k)}</text><text x="${X0+50}" y="${y}" font-size="2.3">${E(val)}</text>`;y+=3.3});
   y+=4;o+=`<text x="${X0}" y="${y}" font-size="3.4" font-weight="bold">Rechenweg</text>`;y+=4.5;
   for(const l of wrapLines(st,76)){if(y>150)break;o+=`<text class="mono" x="${X0}" y="${y}" font-size="2.15" xml:space="preserve">${E(l)}</text>`;y+=3}
   y+=3;o+=`<text x="${X0}" y="${y}" font-size="3.4" font-weight="bold">Hinweise</text>`;y+=4.5;
@@ -545,10 +893,40 @@ function sheetSVG(raster){
   // title block
   const tb=[['Projekt',S.proj||''],['Position',S.posn||''],['Bearbeiter',S.bearb||''],['Datum',new Date().toLocaleDateString('de-DE')]];
   o+=`<rect x="163" y="172" width="124" height="28" fill="#ffffff" stroke="#18222d" stroke-width="0.4"/>`;
-  o+=`<text x="166" y="177.5" font-size="3.2" font-weight="bold">Öffnung zur Rauchableitung – freier Querschnitt</text>`;
+  o+=`<text x="166" y="177.5" font-size="3.2" font-weight="bold">Öffnung zur Rauchableitung – freier Querschnitt</text><text x="284" y="177.5" font-size="2.3" text-anchor="end" fill="#5b6876">Blatt 1 / 2</text>`;
   tb.forEach(([k,val],i)=>{const yy=183+i*4.6;o+=`<line x1="163" y1="${yy-3.4}" x2="287" y2="${yy-3.4}" stroke="#18222d" stroke-width="0.2"/><text x="166" y="${yy}" font-size="2.3" fill="#5b6876">${k}</text><text x="186" y="${yy}" font-size="2.8">${E(val)}</text>`});
   return o+'</svg>';
 }
+/* ---------- sheet 2: 3D views (A4 landscape) ---------- */
+const SHEET2_VIEWS=[['innen',14,29,176,141,'Von innen'],['aussen',194,29,89,68,'Von außen'],['seite',194,103,89,67,'Seitlich']];
+function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('Zeichnung konnte nicht gerendert werden'));i.src=src})}
+function sheet2SVG(raster){
+  const {P,sc,R,a}=LAST;const E=t=>esc(String(t)).replace(/"/g,'&quot;');const M=build3D(P,sc,PRINT3D);
+  let o=`<svg xmlns="http://www.w3.org/2000/svg" width="${raster?raster[0]:'297mm'}" height="${raster?raster[1]:'210mm'}" viewBox="0 0 297 210"><style>text{font-family:Arial,Helvetica,sans-serif;fill:#18222d}</style>`;
+  o+=`<rect width="297" height="210" fill="#ffffff"/><rect x="10" y="10" width="277" height="190" fill="none" stroke="#18222d" stroke-width="0.5"/>`;
+  o+=`<text x="14" y="17" font-size="4" font-weight="bold">3D-Ansicht</text>`;
+  o+=`<text x="14" y="22.5" font-size="2.6" fill="#5b6876">${E(MODES[P.mode])} · Öffnungswinkel α = ${f1(a)}° · nicht maßstäblich</text>`;
+  SHEET2_VIEWS.forEach(([,x,y,w,h,cap])=>{o+=`<text x="${x}" y="${y-1.3}" font-size="2.6" font-weight="bold" fill="#5b6876">${cap}</text>`});
+  let y=178;
+  o+=`<text x="14" y="${y}" font-size="3.2" font-weight="bold">${sc.hits.length?'Kollision – kein gültiger Querschnitt':'A_g = '+f3(R.Ag)+' m²'}</text>`;
+  if(M.hsk)o+=`<text x="60" y="${y}" font-size="2.6" fill="#1f4f8a">${E(M.hsk)}</text>`;
+  y+=6;
+  const lg=[['#1f4f8a',0.45,false,'Lüftungsfläche an der Hauptschließkante zum maßgebenden Bauteil'],['#1d7a4c',0.45,false,'Seitendreiecke außerhalb der Laibung'],['#5b6876',0.15,true,'abgewählt bzw. nicht maßgebend']];
+  lg.forEach(([c,op,dash,t],i)=>{const yy=y+i*4.4;o+=`<rect x="14" y="${yy-2.5}" width="6" height="3" fill="${c}" fill-opacity="${op}" stroke="${c}" stroke-width="0.3"${dash?' stroke-dasharray="0.8 0.6"':''}/><text x="22" y="${yy}" font-size="2.5">${E(t)}</text>`});
+  const tb=[['Projekt',S.proj||''],['Position',S.posn||''],['Bearbeiter',S.bearb||''],['Datum',new Date().toLocaleDateString('de-DE')]];
+  o+=`<rect x="163" y="172" width="124" height="28" fill="#ffffff" stroke="#18222d" stroke-width="0.4"/>`;
+  o+=`<text x="166" y="177.5" font-size="3.2" font-weight="bold">Öffnung zur Rauchableitung – 3D-Ansicht</text><text x="284" y="177.5" font-size="2.3" text-anchor="end" fill="#5b6876">Blatt 2 / 2</text>`;
+  tb.forEach(([kk,val],i)=>{const yy=183+i*4.6;o+=`<line x1="163" y1="${yy-3.4}" x2="287" y2="${yy-3.4}" stroke="#18222d" stroke-width="0.2"/><text x="166" y="${yy}" font-size="2.3" fill="#5b6876">${kk}</text><text x="186" y="${yy}" font-size="2.8">${E(val)}</text>`});
+  return o+'</svg>';
+}
+async function sheet2Canvas(W,H){const k=W/297;const cv=document.createElement('canvas');cv.width=W;cv.height=H;const cx=cv.getContext('2d');
+  cx.fillStyle='#fff';cx.fillRect(0,0,W,H);
+  cx.drawImage(await loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sheet2SVG([W,H]))),0,0,W,H);
+  for(const [cam,x,y,w,h] of SHEET2_VIEWS){const c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);
+    const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);
+    render3D(g,c.width,c.height,{yaw:CAMS[cam][0],pitch:cam==='innen'?0.2:CAMS[cam][1],zoom:cam==='innen'?1.05:0.92},PRINT3D,[255,255,255],{hud:false,k:Math.max(1,c.width/650)});
+    cx.drawImage(c,Math.round(x*k),Math.round(y*k));cx.strokeStyle='#d3d9e0';cx.lineWidth=Math.max(1,0.3*k);cx.strokeRect(Math.round(x*k),Math.round(y*k),c.width,c.height)}
+  return cv}
 const fileBase=()=>('RA-Querschnitt '+(S.posn||S.proj||'Position')+' '+new Date().toISOString().slice(0,10)).replace(/[\\/:*?"<>|]+/g,'-').trim();
 const coarse=()=>window.matchMedia&&matchMedia('(pointer:coarse)').matches;
 async function saveFile(name,blob){
@@ -560,19 +938,21 @@ async function saveFile(name,blob){
   return 'Gespeichert: '+name}
 function guard(){if(!LAST){$('dlState').textContent='Bitte zuerst die markierten Eingaben korrigieren.';return false}return true}
 const enc=new TextEncoder();
-function makePdf(jpeg,w,h,title){ // minimal one-page PDF, A4 landscape, image full page
+function makePdf(pages,title){ // minimal PDF, one A4 landscape page per JPEG image
   const parts=[];let len=0;const offs=[];
   const add=x=>{const u=typeof x==='string'?enc.encode(x):x;parts.push(u);len+=u.length};
-  const obj=(n,s)=>{offs[n]=len;add(`${n} 0 obj\n${s}\nendobj\n`)};
+  const obj=(n,s_)=>{offs[n]=len;add(`${n} 0 obj\n${s_}\nendobj\n`)};
   add('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  const n=pages.length,pid=i=>3+3*i;
   obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
-  obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
-  obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
-  offs[4]=len;add(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${w} /Height ${h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`);add(jpeg);add('\nendstream\nendobj\n');
-  const cs='q 841.89 0 0 595.28 0 0 cm /Im0 Do Q';obj(5,`<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`);
-  const t=title.replace(/[\\()]/g,'').replace(/[^\x20-\x7E]/g,'_');obj(6,`<< /Title (${t}) /Creator (RA-Fluegelsimulation) >>`);
-  const xref=len;let x='xref\n0 7\n0000000000 65535 f \n';for(let i=1;i<=6;i++)x+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
-  add(x+`trailer\n<< /Size 7 /Root 1 0 R /Info 6 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
+  obj(2,`<< /Type /Pages /Kids [${pages.map((_,i)=>pid(i)+' 0 R').join(' ')}] /Count ${n} >>`);
+  pages.forEach((pg,i)=>{const P_=pid(i),I_=P_+1,C_=P_+2;
+    obj(P_,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 841.89 595.28] /Resources << /XObject << /Im0 ${I_} 0 R >> >> /Contents ${C_} 0 R >>`);
+    offs[I_]=len;add(`${I_} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${pg.w} /Height ${pg.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${pg.jpeg.length} >>\nstream\n`);add(pg.jpeg);add('\nendstream\nendobj\n');
+    const cs='q 841.89 0 0 595.28 0 0 cm /Im0 Do Q';obj(C_,`<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`)});
+  const info=3+3*n;const t=title.replace(/[\\()]/g,'').replace(/[^\x20-\x7E]/g,'_');obj(info,`<< /Title (${t}) /Creator (RA-Fluegelsimulation) >>`);
+  const size=info+1,xref=len;let x=`xref\n0 ${size}\n0000000000 65535 f \n`;for(let i=1;i<size;i++)x+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
+  add(x+`trailer\n<< /Size ${size} /Root 1 0 R /Info ${info} 0 R >>\nstartxref\n${xref}\n%%EOF\n`);
   return new Blob(parts,{type:'application/pdf'})}
 const svgUrl=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 $('dlSvg').addEventListener('click',async()=>{if(!guard())return;
@@ -581,11 +961,16 @@ $('dlPdf').addEventListener('click',async()=>{if(!guard())return;const btn=$('dl
   try{const W=3508,H=2480;const img=new Image();
     await new Promise((res,rej)=>{img.onload=res;img.onerror=()=>rej(new Error('Zeichnung konnte nicht gerendert werden'));img.src=svgUrl(sheetSVG([W,H]))});
     const cv=document.createElement('canvas');cv.width=W;cv.height=H;const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,W,H);cx.drawImage(img,0,0,W,H);
-    const blob=await new Promise(r=>cv.toBlob(r,'image/jpeg',0.92));const jpeg=new Uint8Array(await blob.arrayBuffer());
-    $('dlState').textContent=await saveFile(fileBase()+'.pdf',makePdf(jpeg,W,H,fileBase()));
+    const toJ=async c=>new Uint8Array(await (await new Promise(r=>c.toBlob(r,'image/jpeg',0.92))).arrayBuffer());
+    $('dlState').textContent='3D-Ansicht wird erstellt …';const cv2=await sheet2Canvas(W,H);
+    $('dlState').textContent=await saveFile(fileBase()+'.pdf',makePdf([{jpeg:await toJ(cv),w:W,h:H},{jpeg:await toJ(cv2),w:W,h:H}],fileBase()));
   }catch(e){$('dlState').textContent='PDF konnte nicht erstellt werden: '+(e.message||e)}finally{btn.disabled=false}});
-$('dlPrint').addEventListener('click',()=>{if(!guard())return;const img=$('printImg');
-  const go=()=>{setTimeout(()=>window.print(),50)};img.onload=go;img.src=svgUrl(sheetSVG());if(img.complete&&img.naturalWidth)go()});
+const setSrc=(img,src)=>new Promise((res,rej)=>{img.onload=()=>res();img.onerror=()=>rej(new Error('Bild konnte nicht geladen werden'));img.src=src});
+$('dlPrint').addEventListener('click',async()=>{if(!guard())return;const btn=$('dlPrint');btn.disabled=true;$('dlState').textContent='Druckansicht wird erstellt …';
+  try{const c2=await sheet2Canvas(2339,1654);
+    await Promise.all([setSrc($('printImg'),svgUrl(sheetSVG())),setSrc($('printImg2'),c2.toDataURL('image/jpeg',0.92))]);
+    $('dlState').textContent='Druckansicht mit 2 Blättern geöffnet.';setTimeout(()=>window.print(),50)}
+  catch(e){$('dlState').textContent='Druckansicht konnte nicht erstellt werden: '+(e.message||e)}finally{btn.disabled=false}});
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 
 /* ---------- wiring ---------- */
@@ -594,9 +979,25 @@ $('alphaR').addEventListener('input',e=>{S.alpha=e.target.value;$('alphaN').valu
 $('alphaN').addEventListener('input',e=>{S.alpha=e.target.value;save();update()});
 $('alphaN').addEventListener('blur',update);
 $('modes').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(!b)return;S.mode=b.dataset.mode;save();update()});
+$('dimMode').addEventListener('click',e=>{const b=e.target.closest('[data-dim]');if(!b)return;const to=b.dataset.dim,cur=S.dim==='licht'?'licht':'fa';if(to===cur)return;
+  const P=params();if(!P.bad.length){if(to==='licht'){S.b=String(Math.round(P.b*1000));S.h=String(Math.round(P.h*1000))}else{S.fb=String(Math.round(P.fb*1000));S.fh=String(Math.round(P.fh*1000))}}
+  S.dim=to;['b','h','fb','fh'].forEach(k=>{const i=$(k);if(i)i.value=S[k]??''});save();update()});
+$('profDef').addEventListener('click',()=>{['ab','dr','df','v','r','by','bx','im','gt','sf'].forEach(k=>{S[k]=DEF[k];const i=$(k);if(i)i.value=DEF[k]});save();update()});
+function updSketch(){const val=k=>has(S[k])?num(S[k]).toLocaleString('de-DE'):'–';const set=(id,t)=>{const e=document.getElementById('sk-'+id);if(e)e.textContent=t};
+  set('v','ü = '+val('v'));set('r','R = '+val('r'));set('sf','S = '+val('sf'));set('im','i = '+val('im'));set('gt','G = '+val('gt'));set('df','T2 = '+val('df'));set('dr','T1 = '+val('dr'));
+  set('ab','Ab/2 = '+(has(S.ab)?(num(S.ab)/2).toLocaleString('de-DE'):'–'));set('by','By = '+val('by'));set('bx','Bx = '+val('bx'))}
+function hlDim(k){document.querySelectorAll('.sk .dim').forEach(d=>d.classList.toggle('hl',!!k&&(d.dataset.dim===k||((k==='bx'||k==='by')&&d.dataset.dim==='hinge'))))}
+document.querySelectorAll('#profGrid label.f').forEach(l=>{const i=l.querySelector('input');const k=i.dataset.k;
+  i.addEventListener('focus',()=>hlDim(k));i.addEventListener('blur',()=>hlDim(null));
+  l.addEventListener('mouseenter',()=>hlDim(k));l.addEventListener('mouseleave',()=>{if(document.activeElement!==i)hlDim(null);else hlDim(k)})});
+function flushTo(k){const P=params();if(!isFinite(P.pr))return;S[k]=String(Math.round(P.pr*1000));$(k).value=S[k];save();update()}
+$('ceilFlush').addEventListener('click',()=>flushTo('c'));
+$('ovFlush').addEventListener('click',()=>flushTo('ca'));
+$('triSel').addEventListener('click',e=>{const b=e.target.closest('[data-tri]');if(!b)return;S[b.dataset.tri]=S[b.dataset.tri]===false;save();update()});
 $('sides').addEventListener('click',e=>{const b=e.target.closest('[data-side]');if(!b)return;S.side=b.dataset.side;save();update()});
 $('reset').addEventListener('click',()=>{S=Object.assign({},DEF);document.querySelectorAll('input[data-k]').forEach(i=>i.value=S[i.dataset.k]??'');save();update()});
 update();
+setView(VIEW);
 })();
 </script>
 </body>
